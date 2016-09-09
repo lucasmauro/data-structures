@@ -30,7 +30,7 @@ namespace structures {
     class LinkedList {
         public:
             /*!
-            * Builds an empty list.
+            * Constructs an empty list.
             */
             LinkedList();
 
@@ -108,42 +108,102 @@ namespace structures {
             std::size_t size() const;
 
         private:
+            
+            /*!
+            * Verifies whether the list is not empty. Throws an exception otherwise.
+            */
+            void assureNotEmpty() {
+                if (this->empty())
+                    throw std::out_of_range("The list is empty.");
+            }
+            
+            /*!
+            * Verifies whether an index is fit to be used for retrieving an element. Throws an exception if negative.
+            */
+            void assureValidRetrievalPosition(std::size_t index) {
+                if (index < 0 || index >= this->size_)
+                    throw std::out_of_range("Invalid position.");
+            }
+            
+            /*!
+            * Verifies whether an index is fit to be used for insertion. Throws an exception if negative.
+            */
+            void assureValidInsertionPosition(std::size_t index) {
+                if (index < 0 || index > this->size_)
+                    throw std::out_of_range("Invalid position.");
+            }
+
+            /*!
+             * Node
+             *
+             * A placeholder for the data within each list element.
+             *
+             */
             class Node { // Elemento
             public:
+                /*!
+                * Constructs a new Node with given data.
+                *
+                * @param data The given data to be stored.
+                */
                 Node(const T& data):
                     data_{data}
                 {}
 
+                /*!
+                * Constructs a new Node with given data and next element.
+                *
+                * @param data The given data to be stored.
+                * @param next Element to be linked as next element.
+                */
                 Node(const T& data, Node* next):
                     data_{data},
                     next_{next}
                 {}
 
-                T& data() { // getter: dado
+                /*!
+                * Returns the element's data stored in the node.
+                */
+                T& data() {
                     return data_;
                 }
 
-                const T& data() const { // getter const: dado
+                /*!
+                * Returns the constant element's data stored in the node.
+                */
+                const T& data() const {
                     return data_;
                 }
 
-                Node* next() { // getter: próximo
+                /*!
+                * Returns the next linked element.
+                */
+                Node* next() {
                     return next_;
                 }
 
-                const Node* next() const { // getter const: próximo
+                /*!
+                * Returns the constant next linked element.
+                */
+                const Node* next() const {
                     return next_;
                 }
 
-                void next(Node* node) { // setter: próximo
+                /*!
+                * Sets the next linked element.
+                */
+                void next(Node* node) {
                     next_ = node;
                 }
             private:
-                T data_;
-                Node* next_{nullptr};
+                T data_; //<! The element's data stored within the node
+                Node* next_{nullptr}; //<! The next linked element. Default: nullptr.
             };
 
-            Node* end() { // último nodo da lista
+            /*!
+            * Returns the last linked element.
+            */
+            Node* end() {
                 auto it = head;
                 for (auto i = 1u; i < size(); ++i) {
                     it = it->next();
@@ -151,8 +211,8 @@ namespace structures {
                 return it;
             }
 
-            Node* head{nullptr};
-            std::size_t size_{0u};
+            Node* head{nullptr}; //<! The head of the list, pointing to the first element. Default: nullptr.
+            std::size_t size_{0u}; //<! The size of the list. Default: 0u.
     };
 
 }
