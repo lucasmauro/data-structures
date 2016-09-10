@@ -1,5 +1,5 @@
 /* Copyright [2016] <Lucas Mauro de Souza>
- * array_list.h
+ * linked_list.h
  */
 
 /*!
