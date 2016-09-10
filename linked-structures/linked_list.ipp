@@ -28,13 +28,13 @@
         if (this->empty()) {
             return this->push_front(data);
         }
-        Node *previousNode = this->head;
+        Node<T> *previousNode = this->head;
 
         while(previousNode->next() != nullptr) {
             previousNode = previousNode->next();
         }
 
-        Node *newNode = new Node(data, nullptr);
+        Node<T> *newNode = new Node<T>(data, nullptr);
         previousNode->next(newNode);
         this->size_++;
 
@@ -42,7 +42,7 @@
 
     template<typename T>
     void LinkedList<T>::push_front(const T& data) {
-        Node *newNode = new Node(data, this->head);
+        Node<T> *newNode = new Node<T>(data, this->head);
         this->head = newNode;
         this->size_++;
     }
@@ -54,7 +54,7 @@
             return this->push_front(data);
         }
 
-        Node *newNode, *previousNode;
+        Node<T> *newNode, *previousNode;
 
         previousNode = this->head;
 
@@ -65,7 +65,7 @@
             i++;
         }
 
-        newNode = new Node(data, previousNode->next());
+        newNode = new Node<T>(data, previousNode->next());
         previousNode->next(newNode);
         this->size_++;
     }
@@ -75,7 +75,7 @@
         if (this->empty()) {
             return this->push_front(data);
         }
-        Node *currentNode = this->head;
+        Node<T> *currentNode = this->head;
 
         auto i = 0;
         while (i < this->size_-1 && data > currentNode->data()) {
@@ -91,7 +91,7 @@
         this->assureValidRetrievalPosition(index);
 
         auto i = 0;
-        Node *currentNode = this->head;
+        Node<T> *currentNode = this->head;
         while (i < index) {
             currentNode = currentNode->next();
             i++;
@@ -108,14 +108,14 @@
             this->pop_front();
         }
 
-        Node *currentNode = this->head;
+        Node<T> *currentNode = this->head;
         auto i = 0;
         while (i < index-1) {
             currentNode = currentNode->next();
             i++;
         }
 
-        Node *nodeToRemove = currentNode->next();
+        Node<T> *nodeToRemove = currentNode->next();
         currentNode->next(nodeToRemove->next());
         this->size_--;
 
@@ -130,12 +130,12 @@
         if (this->size_ == 1) {
             return this->pop_front();
         }
-        Node *temporaryNode = this->head;
+        Node<T> *temporaryNode = this->head;
         while (temporaryNode->next()->next() != nullptr) {
             temporaryNode = temporaryNode->next();
         }
 
-        Node *toBeDeletedNode = temporaryNode->next();
+        Node<T> *toBeDeletedNode = temporaryNode->next();
         temporaryNode->next(nullptr);
         T data = toBeDeletedNode->data();
         delete toBeDeletedNode;
@@ -148,7 +148,7 @@
         this->assureNotEmpty();
 
         this->size_--;
-        Node *node = this->head;
+        Node<T> *node = this->head;
         T data = node->data();
         this->head = this->head->next();
         delete node;
@@ -179,7 +179,7 @@
         }
 
         auto i = 0;
-        Node *currentNode = this->head;
+        Node<T> *currentNode = this->head;
         while (i < this->size_) {
             if (currentNode->data() == data) {
                 return i;

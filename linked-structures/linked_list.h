@@ -2,31 +2,31 @@
  * linked_list.h
  */
 
-/*!
- * Linked List
- *
- * Represents a list, a structure in which elements may be added at the beginning, top or middle
- * of the structure. The number of elements stored can always be verified. 
- * Elements on the list are linked between each other.
- *
- * @see LinkedList::push()
- * @see LinkedList::push_back()
- * @see LinkedList::push_front()
- * @see LinkedList::pop()
- * @see LinkedList::pop_back()
- * @see LinkedList::pop_front()
- * @see LinkedList::size()
- */
-
 #ifndef STRUCTURES_LINKED_LIST_H
 #define STRUCTURES_LINKED_LIST_H
 
-#include <cstdint>
-#include <stdexcept>
+#include <cstdint> //!< std::size_t included
+#include <stdexcept> //!< C++ exceptions included
+#include "node.hpp" //!< Node used to store and handle the data.
 
 namespace structures {
 
     template<typename T>
+    /*!
+     * Linked List
+     *
+     * Represents a list, a structure in which elements may be added at the beginning, top or middle
+     * of the structure. The number of elements stored can always be verified. 
+     * Elements on the list are linked between each other.
+     *
+     * @see LinkedList::push()
+     * @see LinkedList::push_back()
+     * @see LinkedList::push_front()
+     * @see LinkedList::pop()
+     * @see LinkedList::pop_back()
+     * @see LinkedList::pop_front()
+     * @see LinkedList::size()
+     */
     class LinkedList {
         public:
             /*!
@@ -64,7 +64,9 @@ namespace structures {
             */
             void insert_sorted(const T& data);
 
-            
+            /*!
+            * Returns the element at a given index.
+            */
             T& at(std::size_t index);
 
             /*!
@@ -134,76 +136,9 @@ namespace structures {
             }
 
             /*!
-             * Node
-             *
-             * A placeholder for the data within each list element.
-             *
-             */
-            class Node { // Elemento
-            public:
-                /*!
-                * Constructs a new Node with given data.
-                *
-                * @param data The given data to be stored.
-                */
-                Node(const T& data):
-                    data_{data}
-                {}
-
-                /*!
-                * Constructs a new Node with given data and next element.
-                *
-                * @param data The given data to be stored.
-                * @param next Element to be linked as next element.
-                */
-                Node(const T& data, Node* next):
-                    data_{data},
-                    next_{next}
-                {}
-
-                /*!
-                * Returns the element's data stored in the node.
-                */
-                T& data() {
-                    return data_;
-                }
-
-                /*!
-                * Returns the constant element's data stored in the node.
-                */
-                const T& data() const {
-                    return data_;
-                }
-
-                /*!
-                * Returns the next linked element.
-                */
-                Node* next() {
-                    return next_;
-                }
-
-                /*!
-                * Returns the constant next linked element.
-                */
-                const Node* next() const {
-                    return next_;
-                }
-
-                /*!
-                * Sets the next linked element.
-                */
-                void next(Node* node) {
-                    next_ = node;
-                }
-            private:
-                T data_; //<! The element's data stored within the node
-                Node* next_{nullptr}; //<! The next linked element. Default: nullptr.
-            };
-
-            /*!
             * Returns the last linked element.
             */
-            Node* end() {
+            Node<T>* end() {
                 auto it = head;
                 for (auto i = 1u; i < size(); ++i) {
                     it = it->next();
@@ -211,7 +146,7 @@ namespace structures {
                 return it;
             }
 
-            Node* head{nullptr}; //<! The head of the list, pointing to the first element. Default: nullptr.
+            Node<T>* head{nullptr}; //<! The head of the list, pointing to the first element. Default: nullptr.
             std::size_t size_{0u}; //<! The size of the list. Default: 0u.
     };
 
