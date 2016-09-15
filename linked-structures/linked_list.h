@@ -109,7 +109,7 @@ class LinkedList {
     */
     std::size_t size() const;
 
- private:
+ protected:
     /*!
     * Verifies whether the list is not empty. Throws an exception otherwise.
     */
@@ -145,8 +145,15 @@ class LinkedList {
         return it;
     }
 
-    Node<T>* head{nullptr};  //<! The head of the list, also first element.
-    std::size_t size_{0u};  //<! The size of the list. Default: 0u.
+    /*!
+    * The head of the list, also first element.
+    */
+    Node<T>* head{nullptr};
+
+    /*!
+    * The head of the list, also first element.
+    */
+    std::size_t size_{0u};
 };
 
 }  // namespace structures
