@@ -6,8 +6,6 @@
 #include <stdexcept>  //!< C++ exceptions included
 #include "./double_node.hpp"
 
-#include <iostream>
-
 #ifndef STRUCTURES_DOUBLY_LINKED_LIST_H
 #define STRUCTURES_DOUBLY_LINKED_LIST_H
 
@@ -39,7 +37,7 @@ class DoublyLinkedList {
     /*!
     * Destructs an empty list.
     */
-    ~DoublyLinkedList();
+    virtual ~DoublyLinkedList();
 
     /*!
     * Clears the list.
@@ -49,12 +47,12 @@ class DoublyLinkedList {
     /*!
     * Inserts an element at the back of the list.
     */
-    void push_back(const T& data);
+    virtual void push_back(const T& data);
 
     /*!
     * Inserts an element at the front of the list.
     */
-    void push_front(const T& data);
+    virtual void push_front(const T& data);
 
     /*!
     * Inserts an element at the given index.
@@ -74,12 +72,12 @@ class DoublyLinkedList {
     /*!
     * Removes the element at the top of the list.
     */
-    T pop_back();
+    virtual T pop_back();
 
     /*!
     * Removes the element at the front of the list.
     */
-    T pop_front();
+    virtual T pop_front();
 
     /*!
     * Removes a given element.
@@ -116,7 +114,7 @@ class DoublyLinkedList {
     */
     std::size_t size() const;
 
- private:
+ protected:
     /*!
     * The head of the list, also first element.
     */
