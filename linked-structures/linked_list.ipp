@@ -1,6 +1,6 @@
 #ifndef STRUCTURES_LINKED_LIST_IPP
 #define STRUCTURES_LINKED_LIST_IPP
-    
+
     #include "linked_list.h"
 
     using namespace structures;
@@ -30,8 +30,11 @@
         }
         Node<T> *previousNode = this->head;
 
-        while(previousNode->next() != nullptr) {
+        auto i = 0;
+        auto max = this->size_-1;
+        while(i < max) {
             previousNode = previousNode->next();
+            i++;
         }
 
         Node<T> *newNode = new Node<T>(data, nullptr);

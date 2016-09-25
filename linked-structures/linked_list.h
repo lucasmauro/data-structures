@@ -37,77 +37,77 @@ class LinkedList {
     /*!
     * Destructs the list andi ts elements.
     */
-    ~LinkedList();
+    virtual ~LinkedList();
 
     /*!
     * Clears the list.
     */
-    void clear();
+    virtual void clear();
 
     /*!
     * Inserts an element at the back of the list.
     */
-    void push_back(const T& data);
+    virtual void push_back(const T& data);
 
     /*!
     * Inserts an element at the front of the list.
     */
-    void push_front(const T& data);
+    virtual void push_front(const T& data);
 
     /*!
     * Inserts an element at the given index.
     */
-    void insert(const T& data, std::size_t index);
+    virtual void insert(const T& data, std::size_t index);
 
     /*!
     * Inserts an element according to its sorting settings.
     */
-    void insert_sorted(const T& data);
+    virtual void insert_sorted(const T& data);
 
     /*!
     * Returns the element at a given index.
     */
-    T& at(std::size_t index);
+    virtual T& at(std::size_t index);
 
     /*!
     * Removes an element at the given index.
     */
-    T pop(std::size_t index);
+    virtual T pop(std::size_t index);
 
     /*!
     * Removes the element at the top of the list.
     */
-    T pop_back();
+    virtual T pop_back();
 
     /*!
     * Removes the element at the front of the list.
     */
-    T pop_front();
+    virtual T pop_front();
 
     /*!
     * Removes a given element.
     */
-    void remove(const T& data);
+    virtual void remove(const T& data);
 
     /*!
     * Returns whether the list is full or not.
     */
-    bool empty() const;
+    virtual bool empty() const;
 
     /*!
     * Returns whether the list contains an element or not.
     */
-    bool contains(const T& data) const;
+    virtual bool contains(const T& data) const;
 
     /*!
     * Returns the position of a given element.
     */
-    std::size_t find(const T& data) const;
+    virtual std::size_t find(const T& data) const;
 
     /*!
     * Returns the size of the list.
     */
-    std::size_t size() const;
+    virtual std::size_t size() const;
 
  protected:
     /*!
