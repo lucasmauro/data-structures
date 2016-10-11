@@ -12,18 +12,17 @@
     queue_ = new LinkedQueue<Customer>;
     queueSize_{0};
     }
- Cashier();
 
  ~Cashier() {
     delete queue_;
     delete Cashier;
  }
 
- handleCustomer(Customer customer) {
-    setTotalRevenue(customer.total);
+handleCustomer() {
+    Customer out = queue_<-dequeue();
+    setTotalRevenue(out.total);
     customersOut++;
-    queue_.dequeue();
-    setAverageRevenue();
+    delete out;
  }
  int getQueueSize() {
     return queueSize;
@@ -58,7 +57,7 @@
     }
 
 bool emptyQueue {
-    return queueSize_ == 0;
+    return queue_<-empty();
     }
 
 
