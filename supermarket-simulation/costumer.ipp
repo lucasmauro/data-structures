@@ -1,11 +1,17 @@
-#ifndef COSTUMER_CPP
-#define COSTUMER_CPP
+#ifndef CUSTOMER_CPP
+#define CUSTOMER_CPP
 
-#include "costumer.h"
+#include "customer.h"
 
-Costumer::Costumer(int arrivalTime, int paymentType, int cashierSearchType) {
+Customer::Customer(){};
+
+Customer::Customer(int arrivalTime) {
     std::srand((int) time(0));
     int itemsSize = (std::rand() % 99) + 2;
+
+    int paymentType = (std::rand() % 5);
+
+    int cashierSearchType = (std::rand() % 2);
 
     int itemsTotalPrice = 0;
     for (int i = 1; i <= itemsSize; i++) {
@@ -21,16 +27,16 @@ Costumer::Costumer(int arrivalTime, int paymentType, int cashierSearchType) {
     this->exitTime_ = -1;
 }
 
-Costumer::~Costumer(){}
+Customer::~Customer(){}
 
-bool Costumer::chooseCashier(CircularList<Cashier> cashiers) {
+bool Customer::chooseCashier(CircularList<Cashier> cashiers) {
     int smallestQueueSize = 0;
     int smallestTotalOfItems = 0;
     Cashier bestCashierForQueueSize = nullptr;
     Cashier bestCashierForTotalOfItems = nullptr;
 
     for (int i = 0; i < cashiers.size(); i++) {
-        Cashier cashier = cashiers.get(i);
+        Cashier cashier = cashiers.at(i);
 
         if (cashier.size() <= smallestQueueSize) {
             smallestQueueSize = cashier.size();
@@ -43,7 +49,7 @@ bool Costumer::chooseCashier(CircularList<Cashier> cashiers) {
         }
     }
 
-    if (smallestQueueSize >= this->queue_size_limit_) {
+    if (smallestQueueSize >= this-> queue_size_limit_) {
         return false;
     }
 
@@ -52,7 +58,7 @@ bool Costumer::chooseCashier(CircularList<Cashier> cashiers) {
         return true;
     }
 
-    if (this->getCashierSearchType == 1) {
+    if (this->getCashierSearchType() == 1) {
         bestCashierForTotalOfItems.add(this);
         return true;
     }
@@ -60,28 +66,33 @@ bool Costumer::chooseCashier(CircularList<Cashier> cashiers) {
     return false;
 }
 
-int Costumer::getCashierSearchType() {
+int Customer::getCashierSearchType() {
     return this->cashierSearchType_;
 }
 
-int Costumer::getPaymentType() {
+int Customer::getPaymentType() {
     return this->paymentType_;
 }
 
-int Costumer::getItemsSize() {
+int Customer::getItemsSize() {
     return this->itemsSize_;
 }
 
-int Costumer::getTotalItemsPrice() {
+int Customer::getTotalItemsPrice() {
     return this->itemsTotalPrice_;
 }
 
-int Costumer::getArrivalTime() {
+int Customer::getArrivalTime() {
     return this->arrivalTime_;
 }
 
-int Costumer::getExitTime() {
+int Customer::getExitTime() {
     return this->exitTime_;
 }
 
+void Customer::setExitTime(int exitTime) {
+    this->exitTime_ = exitTime;
+}
+
 #endif
+
