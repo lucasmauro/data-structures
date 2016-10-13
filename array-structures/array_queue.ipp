@@ -49,6 +49,12 @@
     }
 
     template<typename T>
+    T& ArrayQueue<T>::front() {
+        this->assure_that_queue_is_not_empty();
+        return this->contents[0];
+    }
+
+    template<typename T>
     void ArrayQueue<T>::clear() {
         this->size_ = -1;
     }
