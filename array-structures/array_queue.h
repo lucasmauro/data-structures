@@ -59,6 +59,11 @@ namespace structures {
             * Returns the last element of the queue.
             */
             T& back();
+        
+            /*!
+            * Returns the first element of the queue.
+            */
+            T& front();
 
             /*!
             * Clears the queue.
