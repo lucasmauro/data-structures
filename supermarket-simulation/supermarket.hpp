@@ -9,11 +9,9 @@
 #include cashier.hpp
 #include circular_list.hpp
 
-namespace supermarket  {
-
 class Supermarket {
 
- public
+ public:
 
  Supermarket();
 
@@ -21,32 +19,42 @@ class Supermarket {
 
  CircularList<Cashier> *supermarket;
 
- private
-
- int timer;
-
- string name;
-
- int maxQueueSize;
-
- int customerArrivalInt;
+ void run();
 
  int getTimer();
 
- Cashier callOvertime();
+ string getName();
+
+ int getCustomerArrival();
+
+ int getUnnnatended();
+
+ int getLostRevenue();
+
+ void callOvertime();
 
  int maxQueueSize();
 
- readFile();
+ void readFile();
+
+ private:
+
+ int timer_;
+
+ int simTime_;
+
+ string name_;
+
+ int maxQueueSize_;
+
+ int customerArrivalInt_;
+
+ int unattendedCustomers_;
+
+ int lostRevenue_;
 
  // writeFile();
 
- 
-
 };
 
-}  // namespace supermarket
-
 #endif SUPERMARKET_HPP
-
-
