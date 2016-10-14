@@ -75,7 +75,7 @@ class Customer {
     int getExitTime();
 
    /*!
-    * Tells when the customer shall leave the supermarket based on Cashier's
+    * Sets when the costumer shall leave the supermarket.
     */
     void setExitTime(int exitTime);
 
