@@ -9,12 +9,25 @@
 #include "cashier.cpp"
 #include "circular_list.h"
 
+
+/*!
+* Supermarket
+*
+* Represents a supermarket.
+*/
 class Supermarket {
 
  public:
 
+/*!
+  * The row of cashiers of the Supermarket.
+ */
  CircularList<Cashier> *cashiers;
 
+/*
+  * Constructor
+  * Constructs a supermarket
+  */
  inline Supermarket();
 
  inline Supermarket(std::string name, int simulation, int arrival);
@@ -34,6 +47,8 @@ class Supermarket {
  inline int getLostRevenue();
 
  inline void addCashier(Cashier add);
+
+ inline void addCashier();
 
  inline void callOvertime();
 

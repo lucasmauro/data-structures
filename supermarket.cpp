@@ -7,22 +7,55 @@
 #include <iostream>
 
 Supermarket::Supermarket() {
+int simTime;
+ int  queueLimit;
+ int customerArrival;
+ int cashiers;
+ std::string name;
+ 
 
  this->timer_ = 0;
 
- this->simTime_ = 0;
+ std::cout << "Please, set the simulation time in hours:\n"
+ std::cin >> simTime;
 
- this->name_ = "";
+ this->simTime_ = simTime;
 
- this->queue_size_limit_ = 10;
+ std::cout << "Please, type the name of the supermarket:\n"
+ std::in >> name;
+ this->name_ = name;
 
- this->customerArrivalInt_ = 0;
+ std::cout << "Please, type the maximum size of the lines:\n"
+ std::cin >> queueLimit;
+ this->queue_size_limit_ = queueLimit;
+
+ std::cout << "Please, type the customer arriving interval:\n"
+ std::cin >> customer Arrival;
+ this->customerArrivalInt_ = customerArrival;
 
  this->unattendedCustomers_ = 0;
 
  this->lostRevenue_ = 0;
 
  this->cashiers = new CircularList<Cashier>();
+
+ std::cout << "How many cahiers would you like to add?\n"
+ std::cin >> cashiers
+;
+ for (int i = 0; i < cashiers; i++) {
+     std::string cashierName;
+     int cashierEff;
+     int cashierIncome;
+     
+     std::cout << "Please type in the cashier's name\n"
+     std::cin >> cashierName;
+
+     std::cout << "Cashier Efficiency? 1 - good\n2 - average\n3 - bad\n"
+     std::cin >> cashierEff;
+
+     std::cout << "What is the cashier's income??\n"
+     std::cin >> cashierIncome;
+     
 }
 
 Supermarket::Supermarket(std::string name, int simulation, int arrival) {
