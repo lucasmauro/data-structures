@@ -7,8 +7,9 @@
 #include <iostream>
 
 Supermarket::Supermarket() {
-int simTime;
- int  queueLimit;
+
+ int simTime;
+ int queueLimit;
  int customerArrival;
  int cashiers;
  std::string name;
@@ -40,8 +41,8 @@ Supermarket::Supermarket() {
  this->cashiers = new CircularList<Cashier>();
 
  std::cout << "How many cahiers would you like to add?\n"
- std::cin >> cashiers
-;
+ std::cin >> cashiers;
+
  for (int i = 0; i < cashiers; i++) {
      std::string cashierName;
      int cashierEff;
@@ -56,6 +57,9 @@ Supermarket::Supermarket() {
      std::cout << "What is the cashier's income??\n"
      std::cin >> cashierIncome;
      
+     Cashier newCashier = Cashier(cashierName, cashierEff, cashierIncome);
+     cashiers->push_back(newCashier);
+ }
 }
 
 Supermarket::Supermarket(std::string name, int simulation, int arrival) {
