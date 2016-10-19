@@ -31,7 +31,7 @@ Supermarket::Supermarket() {
  this->queue_size_limit_ = queueLimit;
 
  std::cout << "Please, type the customer arriving interval:\n";
- std::cin >> customer Arrival;
+ std::cin >> customerArrival;
  this->customerArrivalInt_ = customerArrival;
 
  this->unattendedCustomers_ = 0;
