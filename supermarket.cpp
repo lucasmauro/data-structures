@@ -11,7 +11,7 @@ Supermarket::Supermarket() {
  int simTime;
  int queueLimit;
  int customerArrival;
- int cashiers;
+ int numberOfCashiers;
  std::string name;
  
 
@@ -41,9 +41,9 @@ Supermarket::Supermarket() {
  this->cashiers = new CircularList<Cashier>();
 
  std::cout << "How many cahiers would you like to add?\n";
- std::cin >> cashiers;
+ std::cin >> numberOfCashiers;
 
- for (int i = 0; i < cashiers; i++) {
+ for (int i = 0; i < numberOfCashiers; i++) {
      std::string cashierName;
      int cashierEff;
      int cashierIncome;
@@ -224,7 +224,7 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
  int Supermarket::maxQueueSize() {
     return queue_size_limit_;
     }
- int Supermarket::calculateTotals() {
+ void Supermarket::calculateTotals() {
      Cashier cash = cashiers->at(0);
      int total = cash.getTotalRevenue();
      int attendedCustomers=0;
