@@ -24,7 +24,8 @@ class Supermarket {
  */
  CircularList<Cashier> *cashiers;
 
-/*
+
+/*
   * Constructor
   * Constructs a supermarket
   */
@@ -60,7 +61,7 @@ class Supermarket {
 
  inline int maxQueueSize();
 
- inline int calculateTotals();
+ inline void calculateTotals();
 
  inline int getTotalRevenue();
 
