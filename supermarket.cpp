@@ -17,20 +17,20 @@ Supermarket::Supermarket() {
 
  this->timer_ = 0;
 
- std::cout << "Please, set the simulation time in hours:\n"
+ std::cout << "Please, set the simulation time in hours:\n";
  std::cin >> simTime;
 
  this->simTime_ = simTime;
 
- std::cout << "Please, type the name of the supermarket:\n"
- std::in >> name;
+ std::cout << "Please, type the name of the supermarket:\n";
+ std::cin >> name;
  this->name_ = name;
 
- std::cout << "Please, type the maximum size of the lines:\n"
+ std::cout << "Please, type the maximum size of the lines:\n";
  std::cin >> queueLimit;
  this->queue_size_limit_ = queueLimit;
 
- std::cout << "Please, type the customer arriving interval:\n"
+ std::cout << "Please, type the customer arriving interval:\n";
  std::cin >> customer Arrival;
  this->customerArrivalInt_ = customerArrival;
 
@@ -40,7 +40,7 @@ Supermarket::Supermarket() {
 
  this->cashiers = new CircularList<Cashier>();
 
- std::cout << "How many cahiers would you like to add?\n"
+ std::cout << "How many cahiers would you like to add?\n";
  std::cin >> cashiers;
 
  for (int i = 0; i < cashiers; i++) {
@@ -48,13 +48,13 @@ Supermarket::Supermarket() {
      int cashierEff;
      int cashierIncome;
      
-     std::cout << "Please type in the cashier's name\n"
+     std::cout << "Please type in the cashier's name\n";
      std::cin >> cashierName;
 
-     std::cout << "Cashier Efficiency? 1 - good\n2 - average\n3 - bad\n"
+     std::cout << "Cashier Efficiency? 1 - good\n2 - average\n3 - bad\n";
      std::cin >> cashierEff;
 
-     std::cout << "What is the cashier's income??\n"
+     std::cout << "What is the cashier's income??\n";
      std::cin >> cashierIncome;
      
      Cashier newCashier = Cashier(cashierName, cashierEff, cashierIncome);
