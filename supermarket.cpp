@@ -13,20 +13,20 @@ Supermarket::Supermarket() {
  int customerArrival;
  int numberOfCashiers;
  std::string name;
- 
+
 
  this->timer_ = 0;
 
  std::cout << "Please, set the simulation time in hours:\n";
  std::cin >> simTime;
 
- this->simTime_ = simTime;
+ this->simTime_ = simTime*60;
 
  std::cout << "Please, type the name of the supermarket:\n";
  std::cin >> name;
  this->name_ = name;
 
- std::cout << "Please, type the maximum size of the lines:\n";
+ std::cout << "Please, type the maximum size of the queue:\n";
  std::cin >> queueLimit;
  this->queue_size_limit_ = queueLimit;
 
@@ -40,23 +40,23 @@ Supermarket::Supermarket() {
 
  this->cashiers = new CircularList<Cashier>();
 
- std::cout << "How many cahiers would you like to add?\n";
+ std::cout << "How many cashiers would you like to add?\n";
  std::cin >> numberOfCashiers;
 
  for (int i = 0; i < numberOfCashiers; i++) {
      std::string cashierName;
      int cashierEff;
      int cashierIncome;
-     
+
      std::cout << "Please type in the cashier's name\n";
      std::cin >> cashierName;
 
-     std::cout << "Cashier Efficiency? 1 - good\n2 - average\n3 - bad\n";
+     std::cout << "Cashier Efficiency?\n1 - good\n2 - average\n3 - bad\n";
      std::cin >> cashierEff;
 
      std::cout << "What is the cashier's income??\n";
      std::cin >> cashierIncome;
-     
+
      Cashier newCashier = Cashier(cashierName, cashierEff, cashierIncome);
      cashiers->push_back(newCashier);
  }
@@ -86,48 +86,53 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
  }
 
  void Supermarket::run() {
-     Cashier thisCashier = cashiers->at(0);
+
+     Customer firstCustomer = Customer(timer_);
+     this->chooseCashier(firstCustomer);
+     Cashier thisCashier;
      Customer thisCustomer;
 
-     while (timer_ <= simTime_) {
-        thisCustomer = thisCashier.getCustomer();
-        if (thisCustomer.getExitTime() == timer_) {
-            thisCashier.checkOut();
-        }
+    while (this->timer_ <= simTime_) {
+     for (int i = 0; i < cashiers->size(); i++) {
+         thisCashier = cashiers->at(i);
+        if (thisCashier.getQueueSize() > 0) {
+            thisCustomer = thisCashier.getCustomer();
+            if (thisCustomer.getExitTime() == this->timer_) {
+                thisCashier.checkOut();
+            }
 
-        if (timer_ % customerArrivalInt_ == 0) {
-            Customer arrival = Customer(timer_);
-            if(!this->chooseCashier(arrival)) {
-                unattendedCustomers_++;
-                lostRevenue_ += arrival.getTotalItemsPrice();
-            } else {
-                int wait = thisCashier.setWaitingTime(arrival);
-                thisCustomer.setExitTime(wait+timer_);
-                thisCashier.setTotalWaitingTime(wait);
-                }
+            if (this->timer_ % customerArrivalInt_ == 0) {
+                Customer arrival = Customer(this->timer_);
+                if(!this->chooseCashier(arrival)) {
+                    unattendedCustomers_++;
+                    lostRevenue_ += arrival.getTotalItemsPrice();
+                } else {
+                    int wait = thisCashier.setWaitingTime(arrival);
+                    thisCustomer.setExitTime(wait+this->timer_);
+                    thisCashier.setTotalWaitingTime(wait);
+                    }
+            }
         }
+        this->timer_++;
+     }
 
     }
         this->calculateTotals();
 
-        std::cout << "Simulation terminated successfully.";
+        std::cout << "Simulation terminated successfully.\n";
+        std::cout << "\n";
         std::cout << this->getName();
         std::cout << "\n";
         std::cout << "\n";
         std::cout << "\n";
-        std::cout << "Total Revenue:\n";
-        std::cout << this->totalRevenue_;
-        std::cout << "Average Revenue:\n";
-        std::cout << this->averageRevenue_;
-        std::cout << "Average Waiting Time:\n";
-        std::cout << this->averageWait_;
-        std::cout << "Unattended Customers:\n";
-        std::cout << this->unattendedCustomers_;
-        std::cout << "Lost Revenue:\n";
-        std::cout << this->lostRevenue_;
-
+        std::cout << "Total Revenue: " << this->totalRevenue_;
+        std::cout << "Average Revenue: " << this->averageRevenue_;
+        std::cout << "Average Waiting Time: " << this->averageWait_;
+        std::cout << "Unattended Customers: " << this->unattendedCustomers_;
+        std::cout << "Lost Revenue: " << this->lostRevenue_;
         std::cout << "Cashiers Revenue:\n";
         this->cashiersRevenue();
+
 
 }
 
@@ -160,11 +165,11 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
     int eff;
     int income;
 
-    std::cout << "Please enter the name of the new Cashier: ";
+    std::cout << "Please enter the name of the new Cashier:\n";
     std::cin >> name;
-    std::cout << "Please enter the efficiency level of the new Cashier: ";
+    std::cout << "Please enter the efficiency level of the new Cashier:\n";
     std::cin >> eff;
-    std::cout << "Please enter the income of the new Cashier: ";
+    std::cout << "Please enter the income of the new Cashier:\n";
     std::cin >> income;
     std::cout << "Thanks";
 
@@ -190,7 +195,7 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
     Cashier bestCashierForQueueSize = cashiers->at(0);
     Cashier bestCashierForTotalOfItems = cashiers->at(0);
 
-    for (int i = 1; i < cashiers->size(); i++) {
+    for (int i = 0; i < cashiers->size(); i++) {
         Cashier choice = cashiers->at(i);
 
         if (choice.getQueueSize() <= smallestQueueSize) {
@@ -237,7 +242,9 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
      }
 
      this->totalRevenue_ = total;
+     if (attendedCustomers != 0) {
      this->averageRevenue_ = total/attendedCustomers;
+     }
      this->averageWait_ = wait;
 
  }
@@ -264,14 +271,10 @@ void Supermarket::cashiersRevenue() {
         total = cashy.getTotalRevenue();
         profit = cashy.getTotalRevenue()-cashy.getIncome();
         average = cashy.getAverageRevenue();
-        std::cout << "Cashier's name:\n";
-        std::cout << name;
-        std::cout << "Cashier's total revenue:\n";
-        std::cout << total;
-        std::cout << "Cashier's average revenue:\n";
-        std::cout << average;
-        std::cout << "Cashier's profit:\n";
-        std::cout << profit;
+        std::cout << "Cashier's name:\n" << name;
+        std::cout << "Cashier's total revenue:\n" << total;
+        std::cout << "Cashier's average revenue:\n" << average;
+        std::cout << "Cashier's profit:\n" << profit;
     }
     }
 

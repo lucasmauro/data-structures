@@ -8,7 +8,15 @@
     this->id_ = id;
     this->eff_ = eff;
     this->income_ = income;
-    this->queue_ = new ArrayQueue<Customer>(10u);
+    this->queue_ = new ArrayQueue<Customer>(10);
+    this->queueSize_ = 0;
+}
+
+Cashier::Cashier() {
+    this->id_ = "";
+    this->eff_ = 0;
+    this->income_ = 0;
+    this->queue_ = nullptr;
     this->queueSize_ = 0;
 }
 
@@ -85,12 +93,12 @@ void Cashier::setTotalWaitingTime(int wTime) {
 }
 
 bool  Cashier::emptyQueue() {
-    return queue_->empty();
+    return this->queue_->empty();
 }
 
 void Cashier::add(Customer newCustomer) {
-    queue_->enqueue(newCustomer);
-    totalItems_ += newCustomer.getItemsSize();
+    this->queue_->enqueue(newCustomer);
+    this->totalItems_ += newCustomer.getItemsSize();
 }
 
 

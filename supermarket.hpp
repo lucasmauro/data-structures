@@ -24,8 +24,7 @@ class Supermarket {
  */
  CircularList<Cashier> *cashiers;
 
-
-/*
+/*
   * Constructor
   * Constructs a supermarket
   */

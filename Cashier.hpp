@@ -23,8 +23,14 @@ class Cashier {
 
  inline Cashier(std::string &id, int eff, int income);
  /*
+  * Constructs a Cashier with the given data
+  */
+
+  inline Cashier();
+ /*
   * Constructs a Cashier
   */
+
  inline ~Cashier();
  /*
   * Deletes the Cashier

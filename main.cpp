@@ -7,65 +7,82 @@ using namespace std;
 
 int main() {
 
-    Supermarket supermarket;
+    int option;
 
-	FILE *file = fopen("/CHANGE/THIS/TO/YOUR/DIRECTORY/input.txt", "r+");
+    std::cout << "would you like to open a file or type in the data?\n";
+    std::cout << "1 - Open file\n";
+    std::cout << "2 - Type in data\n";
+    std::cin >> option;
 
-	if (!file)
-		perror("File opening failed");
+    if (option == 1) {
 
-	string supermarketName = "";
-	string simulationHours = "";
-	string meanCustomerArrivalTime = "";
+        FILE *file = fopen("C:\\Users\\Aluno 03\\Documents\\Supermarket\\input.txt", "r+");
 
-	char line[255];
+        if (!file)
+            perror("File opening failed");
 
-	while (!feof(file)) {
-		fgets(line, 255, file);
-		bool validLine = line[0] != '#' && line[0] != '\n' && line[0] != ' ';
+        string supermarketName = "";
+        string simulationHours = "";
+        int simHours;
+        string meanCustomerArrivalTime = "";
+        int arrivalTime;
+        char line[255];
 
-		if (supermarketName.empty() && validLine) {
-			supermarketName = line;
-			supermarket.setName(supermarketName);
+        while (!feof(file)) {
+            fgets(line, 255, file);
+            bool validLine = line[0] != '#' && line[0] != '\n' && line[0] != ' ';
 
-		} else if (simulationHours.empty() && validLine) {
-			simulationHours = line;
-			supermarket.setSimTime(atoi(simulationHours.c_str())*60);
+            if (supermarketName.empty() && validLine) {
+                supermarketName = line;
 
-		} else if (meanCustomerArrivalTime.empty() && validLine) {
-			meanCustomerArrivalTime = line;
-			supermarket.setArrival(atoi(meanCustomerArrivalTime.c_str()));
+            } else if (simulationHours.empty() && validLine) {
+                simulationHours = line;
+                simHours = atoi(simulationHours.c_str())*60;
 
-		} else if (!supermarketName.empty() && !simulationHours.empty()
-				&& !meanCustomerArrivalTime.empty() && validLine) {
+            } else if (meanCustomerArrivalTime.empty() && validLine) {
+                meanCustomerArrivalTime = line;
+                arrivalTime = atoi(meanCustomerArrivalTime.c_str());
 
-			string cashierLine = line;
-			int pos = cashierLine.find(" ");
+            } else if (!supermarketName.empty() && !simulationHours.empty()
+                    && !meanCustomerArrivalTime.empty() && validLine) {
 
-			string firstParameter = cashierLine.substr(0, pos);
+                string cashierLine = line;
+                int pos = cashierLine.find(" ");
 
-			string secondChunk = cashierLine.substr(pos + 1,
-					cashierLine.find(" "));
+                string firstParameter = cashierLine.substr(0, pos);
 
-			pos = secondChunk.find(" ");
+                string secondChunk = cashierLine.substr(pos + 1,
+                        cashierLine.find(" "));
 
-			string secondParameter = secondChunk.substr(0, pos);
-			string thirdParameter = secondChunk.substr(pos + 1,
-					secondChunk.size());
+                pos = secondChunk.find(" ");
 
-			int secondParam = atoi(secondParameter.c_str());
-			int thirdParam = atoi(thirdParameter.c_str());
+                string secondParameter = secondChunk.substr(0, pos);
+                string thirdParameter = secondChunk.substr(pos + 1,
+                        secondChunk.size());
 
-			Cashier brandNewCashier = Cashier(firstParameter, secondParam, thirdParam);
-			supermarket.addCashier(brandNewCashier);
+                int secondParam = atoi(secondParameter.c_str());
+                int thirdParam = atoi(thirdParameter.c_str());
 
-		}
+                Supermarket supermarket = Supermarket(supermarketName, simHours, arrivalTime);
 
-	}
+                Cashier brandNewCashier = Cashier(firstParameter, secondParam, thirdParam);
 
-	fclose(file);
+                supermarket.addCashier(brandNewCashier);
 
-	supermarket.run();
+                supermarket.run();
+            }
+
+        }
+
+        fclose(file);
+
+
+    } else if (option == 2) {
+        Supermarket supermarket = Supermarket();
+        supermarket.run();
+    }
+
+
 
 
 

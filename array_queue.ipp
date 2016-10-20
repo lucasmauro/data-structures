@@ -76,7 +76,7 @@
 
     template<typename T>
     bool ArrayQueue<T>::full() {
-        return this->size_ == (this->max_size_ - 1);
+        return this->size_ == (this->max_size_ -1);
     }
 
 #endif

@@ -16,7 +16,7 @@ template<typename T>
  * Linked List
  *
  * Represents a list, a structure in which elements may be added at the beginning, top or middle
- * of the structure. The number of elements stored can always be verified. 
+ * of the structure. The number of elements stored can always be verified.
  * Elements on the list are linked between each other.
  *
  * @see LinkedList::push()

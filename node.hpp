@@ -23,6 +23,15 @@ class Node {
         data_{data}
     {}
 
+     /*!
+    * Constructs a new Node with given data.
+    *
+    * @param data The given data to be stored.
+    */
+    Node():
+        next_{nullptr}
+    {}
+
     /*!
     * Constructs a new Node with given data and next element.
     *

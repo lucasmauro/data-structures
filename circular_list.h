@@ -13,7 +13,7 @@ template<typename T>
  *
  * Represents a circular list, a structure that has no beginning nor an end.
  * Elements may be stored and removed in and from anywhere.
- * The number of elements stored can always be verified. 
+ * The number of elements stored can always be verified.
  * Elements on the list are linked between each other.
  *
  * @see LinkedList::push()
@@ -37,9 +37,19 @@ class CircularList : public LinkedList<T> {
     ~CircularList();
 
     /*!
+    * Inserts an element at the back of the list.
+    */
+    void push_back(const T& data);
+
+    /*!
     * Inserts an element at the front of the list.
     */
     void push_front(const T& data);
+
+    /*!
+    * Returns the element at the given index.
+    */
+    T& at(std::size_t index);
 
     /*!
     * Removes the element at the front of the list.
@@ -50,6 +60,9 @@ class CircularList : public LinkedList<T> {
     * Removes the element at the top of the list.
     */
     T pop_back();
+
+ private:
+    Node<T>* sentinel;
 };
 
 }  // namespace structures
