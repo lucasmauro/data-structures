@@ -16,7 +16,7 @@ int main() {
 
     if (option == 1) {
 
-        FILE *file = fopen("C:\\Users\\Aluno 03\\Documents\\Supermarket\\input.txt", "r+");
+        FILE *file = fopen("Change this to your directory/input.txt", "r+");
 
         if (!file)
             perror("File opening failed");
