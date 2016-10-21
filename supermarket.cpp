@@ -125,12 +125,12 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
         std::cout << "\n";
         std::cout << "\n";
         std::cout << "\n";
-        std::cout << "Total Revenue: " << this->totalRevenue_;
-        std::cout << "Average Revenue: " << this->averageRevenue_;
-        std::cout << "Average Waiting Time: " << this->averageWait_;
-        std::cout << "Unattended Customers: " << this->unattendedCustomers_;
-        std::cout << "Lost Revenue: " << this->lostRevenue_;
-        std::cout << "Cashiers Revenue:\n";
+        std::cout << "Total Revenue: " << this->totalRevenue_ << std::endl;
+        std::cout << "Average Revenue: " << this->averageRevenue_ << std::endl;
+        std::cout << "Average Waiting Time: " << this->averageWait_ << std::endl;
+        std::cout << "Unattended Customers: " << this->unattendedCustomers_ << std::endl;
+        std::cout << "Lost Revenue: " << this->lostRevenue_ << std::endl;
+        std::cout << "Cashiers Revenue:\n" << std::endl;
         this->cashiersRevenue();
 
 

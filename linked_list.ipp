@@ -147,9 +147,12 @@
         if (this->size_ == 1) {
             return this->pop_front();
         }
+        int i = 0;
+        int max = this->size_-2;
         Node<T> *temporaryNode = this->head;
-        while (temporaryNode->next()->next() != nullptr) {
+        while (i < max) {
             temporaryNode = temporaryNode->next();
+            i++;
         }
 
         Node<T> *toBeDeletedNode = temporaryNode->next();

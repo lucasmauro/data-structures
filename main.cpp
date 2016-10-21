@@ -1,11 +1,22 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#include "Cashier.hpp"
+#include "circular_list.h"
 #include "supermarket.cpp"
 
 using namespace std;
 
 int main() {
+
+    string supermarketName = "";
+    string simulationHours = "";
+    int simHours = 0;
+    string meanCustomerArrivalTime = "";
+    int arrivalTime = 0;
+    char line[255];
+
+    CircularList<Cashier> cashiers {};
 
     int option;
 
@@ -16,17 +27,10 @@ int main() {
 
     if (option == 1) {
 
-        FILE *file = fopen("Change this to your directory/input.txt", "r+");
+        FILE *file = fopen("/home/lucas/workspace/linked_list/src/input.txt", "r+");
 
         if (!file)
             perror("File opening failed");
-
-        string supermarketName = "";
-        string simulationHours = "";
-        int simHours;
-        string meanCustomerArrivalTime = "";
-        int arrivalTime;
-        char line[255];
 
         while (!feof(file)) {
             fgets(line, 255, file);
@@ -63,13 +67,9 @@ int main() {
                 int secondParam = atoi(secondParameter.c_str());
                 int thirdParam = atoi(thirdParameter.c_str());
 
-                Supermarket supermarket = Supermarket(supermarketName, simHours, arrivalTime);
-
                 Cashier brandNewCashier = Cashier(firstParameter, secondParam, thirdParam);
 
-                supermarket.addCashier(brandNewCashier);
-
-                supermarket.run();
+                cashiers.push_back(brandNewCashier);
             }
 
         }
@@ -82,9 +82,16 @@ int main() {
         supermarket.run();
     }
 
+    if (option == 1 && !supermarketName.empty() && simHours > 0 && arrivalTime > 0) {
 
+    	Supermarket supermarket = Supermarket(supermarketName, simHours, arrivalTime);
 
+    	for (auto i = 0; i < cashiers.size(); i++) {
+    		supermarket.addCashier(cashiers.pop_back());
+    	}
 
+    	supermarket.run();
+    }
 
 	return 0;
 }
