@@ -81,26 +81,35 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
 
 
  void Supermarket::run() {
+  // cria o primeiro cliente. sua chegada dispara o programa
     Customer firstCustomer = Customer(timer_);
+  //  escolhe um caixa para o primeiro cliente
     this->chooseCashier(firstCustomer);
+  // gera a hora de chegada do próximo cliente
     int nextCustomer = (customerArrivalInt_ + (std::rand() % 5));
 
+  //  cria um laço para, enquanto o relógio não chegar ao fim da simulação...
     while (timer_ <= simTime_) {
+     //  ...percorrer a lista circular, caixa por caisa
             for( int i = 0; i < cashiers->size(); i++) {
                 Cashier thisCashier = cashiers->at(i);
-                if (thisCashier.getQueueSize() >  0) {
+             //  se a fia do caixa não for vazia...
+                if (thisCashier.getQueueSize() >  0) 
+                 //  ...verifica se está na hora de o primeiro cliente ser atendido
                     Customer thisCustomer = thisCashier.getCustomer();
                     if (thisCustomer.getExitTime() == timer_) {
                         thisCashier.checkOut();
                     }
                 }
             }
+  //  aqui, verificamos se está na hora do próximo cliente chegar
 
             if (nextCustomer == timer_) {
                 Customer arrival = Customer(timer_);
+             //  se estiver, escolhemos um caixa pra ele, se houver
                 if (chooseCashier(arrival)) {
                     nextCustomer += (customerArrivalInt_ + (std::rand() % 5));
-                } else {
+                } else {  //  se não houver, ele abandona o carrinho. o valor de suas compras é multiplicdo por três.
                     this->unattendedCustomers_++;
                     this->lostRevenue_ += (arrival.getTotalItemsPrice() * 3);
                 }
@@ -108,6 +117,7 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
             timer_++;
         }
 
+//  ao final da simulação, calcula-se os totais que o sistema deve informar ao usuário
     this->calculateTotals();
 
     std::cout << "Simulation terminated successfully.\n";
