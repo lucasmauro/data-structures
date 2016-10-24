@@ -102,7 +102,7 @@ namespace structures {
             */
             void assure_that_queue_is_not_full() {
                 if(full()) {
-                    throw std::out_of_range("The queue is empty.");
+                    throw std::out_of_range("The queue is full.");
                 }
             }
 
@@ -111,7 +111,7 @@ namespace structures {
             */
             void assure_that_queue_is_not_empty() {
                 if(empty()) {
-                    throw std::out_of_range("The queue is full.");
+                    throw std::out_of_range("The queue is empty.");
                 }
             }
         };

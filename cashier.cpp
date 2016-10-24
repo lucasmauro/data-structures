@@ -31,13 +31,15 @@ void Cashier::checkOut() {
     customersOut++;
  }
  std::size_t Cashier::getQueueSize() {
-    return queueSize_;
+    return this->queue_->size();
 }
  int  Cashier::getCustomersOut() {
     return customersOut;
 }
  int  Cashier::getAverageWaitingTime() {
-    return totalWaitingTime/customersOut;
+     if (customersOut > 0) {
+        return (totalWaitingTime/customersOut);
+     }
 }
  int  Cashier::getWaitingTime() {
     return waitingTime;
@@ -60,7 +62,7 @@ int  Cashier::getIncome() {
  int Cashier::getTotalOfItems() {
     return totalItems_;
  }
- void Cashier::setTotalRevenue(double amount) {
+ void Cashier::setTotalRevenue(int amount) {
      totalRevenue += amount;
 }
  void Cashier::setAverageRevenue() {
@@ -99,6 +101,7 @@ bool  Cashier::emptyQueue() {
 void Cashier::add(Customer newCustomer) {
     this->queue_->enqueue(newCustomer);
     this->totalItems_ += newCustomer.getItemsSize();
+    this->queueSize_++;
 }
 
 

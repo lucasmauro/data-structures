@@ -12,15 +12,15 @@ Supermarket::Supermarket() {
  int queueLimit;
  int customerArrival;
  int numberOfCashiers;
- std::string name;
 
+ std::string name;
 
  this->timer_ = 0;
 
  std::cout << "Please, set the simulation time in hours:\n";
  std::cin >> simTime;
 
- this->simTime_ = simTime*60;
+ this->simTime_ = (simTime*60);
 
  std::cout << "Please, type the name of the supermarket:\n";
  std::cin >> name;
@@ -64,8 +64,6 @@ Supermarket::Supermarket() {
 
 Supermarket::Supermarket(std::string name, int simulation, int arrival) {
 
- this->timer_ = 0;
-
  this->simTime_ = simulation;
 
  this->name_ = name;
@@ -74,10 +72,6 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
 
  this->customerArrivalInt_ = arrival;
 
- this->unattendedCustomers_ = 0;
-
- this->lostRevenue_ = 0;
-
  this->cashiers = new CircularList<Cashier>();
 
 }
@@ -85,41 +79,38 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
  Supermarket::~Supermarket() {
  }
 
+
  void Supermarket::run() {
+    Customer firstCustomer = Customer(timer_);
+    this->chooseCashier(firstCustomer);
+    int nextCustomer = (customerArrivalInt_ + (std::rand() % 5));
 
-     Customer firstCustomer = Customer(timer_);
-     this->chooseCashier(firstCustomer);
-     Cashier thisCashier;
-     Customer thisCustomer;
-
-    while (this->timer_ <= simTime_) {
-     for (int i = 0; i < cashiers->size(); i++) {
-         thisCashier = cashiers->at(i);
-        if (thisCashier.getQueueSize() > 0) {
-            thisCustomer = thisCashier.getCustomer();
-            if (thisCustomer.getExitTime() == this->timer_) {
-                thisCashier.checkOut();
-            }
-
-            if (this->timer_ % customerArrivalInt_ == 0) {
-                Customer arrival = Customer(this->timer_);
-                if(!this->chooseCashier(arrival)) {
-                    unattendedCustomers_++;
-                    lostRevenue_ += arrival.getTotalItemsPrice();
-                } else {
-                    int wait = thisCashier.setWaitingTime(arrival);
-                    thisCustomer.setExitTime(wait+this->timer_);
-                    thisCashier.setTotalWaitingTime(wait);
+    while (timer_ <= simTime_) {
+            for( int i = 0; i < cashiers->size(); i++) {
+                Cashier thisCashier = cashiers->at(i);
+                if (thisCashier.getQueueSize() >  0) {
+                    Customer thisCustomer = thisCashier.getCustomer();
+                    if (thisCustomer.getExitTime() == timer_) {
+                        thisCashier.checkOut();
                     }
+                }
             }
+
+            if (nextCustomer == timer_) {
+                Customer arrival = Customer(timer_);
+                if (chooseCashier(arrival)) {
+                    nextCustomer += (customerArrivalInt_ + (std::rand() % 5));
+                } else {
+                    this->unattendedCustomers_++;
+                    this->lostRevenue_ += (arrival.getTotalItemsPrice() * 3);
+                }
+            }
+            timer_++;
         }
-        this->timer_++;
-     }
 
-    }
-        this->calculateTotals();
+    this->calculateTotals();
 
-        std::cout << "Simulation terminated successfully.\n";
+    std::cout << "Simulation terminated successfully.\n";
         std::cout << "\n";
         std::cout << this->getName();
         std::cout << "\n";
@@ -133,8 +124,7 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
         std::cout << "Cashiers Revenue:\n" << std::endl;
         this->cashiersRevenue();
 
-
-}
+ }
 
  int Supermarket::getTimer() {
     return timer_;
@@ -176,27 +166,48 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
     Cashier extra = Cashier(name, eff, income);
     cashiers->push_back(extra);
     }
+/*!
+    bool Supermarket::chooseCashier(Customer& customer) {
+        int searchType = customer.getCashierSearchType();
+        Cashier& choice = cashiers->at(0);
 
- void Supermarket::setName(std::string newName) {
-    this->name_ = newName;
- }
+        if (searchType == 0) {
+            for (int i = 1; i<cashiers->size(); i++) {
+                Cashier& assert = cashiers->at(1);
+                if (choice.getQueueSize() > assert.getQueueSize()) {
+                    choice = assert;
+                }
+            }
+            choice.add(customer);
+            int wait = choice.setWaitingTime(customer);
+            customer.setExitTime(wait+this->timer_);
+            choice.setTotalWaitingTime(wait);
+            return true;
+        } else if (searchType == 1) {
+            for (int i = 1; i<cashiers->size(); i++) {
+                Cashier& assert = cashiers->at(1);
+                if (choice.getTotalOfItems() > assert.getTotalOfItems()) {
+                    choice = assert;
+                }
+            }
+            choice.add(customer);
+            int wait = choice.setWaitingTime(customer);
+            customer.setExitTime(wait+this->timer_);
+            choice.setTotalWaitingTime(wait);
+            return true;
+        } else {
+            return false;
+        }
+    } */
 
-  void Supermarket::setSimTime(int newSimTime) {
-    this->simTime_ = newSimTime;
-  }
-
-  void Supermarket::setArrival(int newArrivalTime) {
-    this->customerArrivalInt_ = newArrivalTime;
-    }
-
-  bool Supermarket::chooseCashier(Customer customer) {
+ bool Supermarket::chooseCashier(Customer& customer) {
     int smallestQueueSize = 0;
     int smallestTotalOfItems = 0;
-    Cashier bestCashierForQueueSize = cashiers->at(0);
-    Cashier bestCashierForTotalOfItems = cashiers->at(0);
+    Cashier &bestCashierForQueueSize = cashiers->at(1);
+    Cashier &bestCashierForTotalOfItems = cashiers->at(0);
 
     for (int i = 0; i < cashiers->size(); i++) {
-        Cashier choice = cashiers->at(i);
+        Cashier &choice = cashiers->at(i);
 
         if (choice.getQueueSize() <= smallestQueueSize) {
             smallestQueueSize = choice.getQueueSize();
@@ -209,19 +220,25 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
         }
     }
 
-    if (smallestQueueSize >= this->queue_size_limit_) {
+    if (smallestQueueSize >= this->queue_size_limit_ -1) {
         return false;
     }
 
     if (customer.getCashierSearchType() == 0) {
         bestCashierForQueueSize.add(customer);
+        int wait = bestCashierForQueueSize.setWaitingTime(customer);
+        customer.setExitTime(wait+this->timer_);
+        bestCashierForQueueSize.setTotalWaitingTime(wait);
         return true;
     }
 
     if (customer.getCashierSearchType() == 1) {
         bestCashierForTotalOfItems.add(customer);
+        int wait = bestCashierForTotalOfItems.setWaitingTime(customer);
+        customer.setExitTime(wait+this->timer_);
+        bestCashierForTotalOfItems.setTotalWaitingTime(wait);
         return true;
-    }
+        }
 
     return false;
 }
@@ -229,6 +246,7 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
  int Supermarket::maxQueueSize() {
     return queue_size_limit_;
     }
+
  void Supermarket::calculateTotals() {
      Cashier cash = cashiers->at(0);
      int total = cash.getTotalRevenue();
@@ -249,17 +267,6 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
 
  }
 
- int Supermarket::getTotalRevenue() {
-    return this->totalRevenue_;
-    }
-
- int Supermarket::getAverageRevenue() {
-    return this->averageRevenue_;
-    }
-
- int Supermarket::getAverageWait() {
-    return this->averageWait_;
-    }
 void Supermarket::cashiersRevenue() {
     Cashier cashy = cashiers->at(0);
     int profit;
@@ -271,10 +278,10 @@ void Supermarket::cashiersRevenue() {
         total = cashy.getTotalRevenue();
         profit = cashy.getTotalRevenue()-cashy.getIncome();
         average = cashy.getAverageRevenue();
-        std::cout << "Cashier's name:\n" << name;
-        std::cout << "Cashier's total revenue:\n" << total;
-        std::cout << "Cashier's average revenue:\n" << average;
-        std::cout << "Cashier's profit:\n" << profit;
+        std::cout << "\nCashier's name: " << name << std::endl;
+        std::cout << "\nCashier's total revenue: " << total << std::endl;
+        std::cout << "\nCashier's average revenue: " << average << std::endl;
+        std::cout << "\nCashier's profit: " << profit << std::endl;
     }
     }
 

@@ -88,7 +88,7 @@ class Cashier {
   /*
   * Returns the number of items in the cashier's queue
   */
- inline void setTotalRevenue(double amount);
+ inline void setTotalRevenue(int amount);
  /*
   * Changes the value of the total revenue
   */
@@ -119,7 +119,7 @@ class Cashier {
  /*
   * A pointer for a Customer's queue
   */
- std::size_t queueSize_;
+ std::size_t queueSize_{0};
  /*
   * The size of the queue
   */
@@ -135,31 +135,31 @@ class Cashier {
  /*
   * The income of the cashier
   */
- int customersOut;
+ int customersOut{0};
  /*
   * The number of customer checked out by the cashier
   */
- int totalItems_;
+ int totalItems_{0};
   /*
   * The number items in the cashier's queue
   */
- int averageWaitingTime;
+ int averageWaitingTime{0};
  /*
   * The average time in seconds that a Customer stands waiting
   */
-  int waitingTime;
+  int waitingTime{0};
   /*
   * The waiting time of the next customer
   */
-  int totalWaitingTime;
+  int totalWaitingTime{0};
   /*
   * The total amount of time accumulated by all clients
   */
- double totalRevenue;
+ int totalRevenue{0};
  /*
   * The total amount of cash accumulated by the cashier
   */
- double averageRevenue;
+ int averageRevenue{0};
  /*
   * The Average amount of cash accumulated by the Cashier
   */

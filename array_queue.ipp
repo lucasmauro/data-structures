@@ -1,6 +1,7 @@
 #ifndef STRUCTURES_ARRAY_QUEUE_IPP
 #define STRUCTURES_ARRAY_QUEUE_IPP
 
+    #include <iostream>
     #include "array_queue.h"
 
     using namespace structures;
@@ -25,7 +26,7 @@
 
     template<typename T>
     void ArrayQueue<T>::enqueue(const T& data) {
-        this->assure_that_queue_is_not_full();
+        assure_that_queue_is_not_full();
         this->size_++;
         this->contents[this->size_] = data;
     }

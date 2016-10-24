@@ -27,7 +27,7 @@ int main() {
 
     if (option == 1) {
 
-        FILE *file = fopen("/home/lucas/workspace/linked_list/src/input.txt", "r+");
+        FILE *file = fopen("C:\\Users\\Usuario\\Documents\\Supermarket\\input.txt", "r+");
 
         if (!file)
             perror("File opening failed");

@@ -23,52 +23,49 @@ class Supermarket {
   * The row of cashiers of the Supermarket.
  */
  CircularList<Cashier> *cashiers;
-
-/*
+ /*!
   * Constructor
   * Constructs a supermarket
   */
  inline Supermarket();
 
+ /*!
+  * Constructor
+  * Constructs a supermarket with the given parameters
+  */
  inline Supermarket(std::string name, int simulation, int arrival);
 
- inline ~Supermarket();
+ /*!
+  * Destructor
+  * Destructs a supermarket
+  */
+ inline ~Supermarket();  //ignorar
 
  inline void run();
 
- inline int getTimer();
+ inline int getTimer();  //ignorar
 
- inline std::string getName();
+ inline std::string getName();  //ignorar
 
- inline int getCustomerArrival();
+ inline int getCustomerArrival();  //ignorar
 
- inline int getUnattended();
+ inline int getUnattended();  //ignorar
 
- inline int getLostRevenue();
+ inline int getLostRevenue();  //ignorar
 
- inline void addCashier(Cashier add);
+ inline void addCashier(Cashier add);  //ignorar
 
- inline void addCashier();
+ inline void addCashier();  //ignorar
 
- inline void callOvertime();
+ inline void callOvertime();  //ignorar
 
- inline void setName(std::string newName);
+ inline void setArrival(int newArrivalTime);  //ignorar
 
- inline void setSimTime(int newSimTime);
+ inline int maxQueueSize();  //ignorar
 
- inline void setArrival(int newArrivalTime);
+ inline void calculateTotals();  //ignorar
 
- inline int maxQueueSize();
-
- inline void calculateTotals();
-
- inline int getTotalRevenue();
-
- inline int getAverageRevenue();
-
- inline int getAverageWait();
-
- inline void cashiersRevenue();
+ inline void cashiersRevenue(); //ignorar
 
   /*!
     * Based on their criteria, the customer will either pick a cashier that
@@ -77,29 +74,29 @@ class Supermarket {
     *
     * @param cashiers A list of cashiers in the market.
     */
- inline bool chooseCashier(Customer customer);
+ inline bool chooseCashier(Customer& customer);
 
  private:
 
- int timer_;
+ int timer_{0};
 
- int simTime_;
+ int simTime_;  //ignorar
 
  std::string name_;
 
- int queue_size_limit_;
+ int queue_size_limit_; //ignorar
 
- int customerArrivalInt_;
+ int customerArrivalInt_; //ignorar
 
- int unattendedCustomers_;
+ int unattendedCustomers_{0};
 
- int lostRevenue_;
+ int lostRevenue_{0};
 
- int totalRevenue_;
+ int totalRevenue_{0}; //ignorar
 
- int averageRevenue_;
+ int averageRevenue_{0}; //ignorar
 
- int averageWait_;
+ int averageWait_{0};  //ignorar
 
 
 };

@@ -24,7 +24,6 @@ inline Customer::Customer(int arrivalTime) {
     this->itemsSize_ = itemsSize;
     this->itemsTotalPrice_ = itemsTotalPrice;
     this->cashierSearchType_ = cashierSearchType;
-    this->exitTime_ = -1;
 }
 
 Customer::~Customer(){}
