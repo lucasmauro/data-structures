@@ -211,21 +211,22 @@ Supermarket::Supermarket(std::string name, int simulation, int arrival) {
     } */
 
  bool Supermarket::chooseCashier(Customer& customer) {
-    int smallestQueueSize = 0;
-    int smallestTotalOfItems = 0;
     Cashier &bestCashierForQueueSize = cashiers->at(1);
+    int smallestQueueSize = bestCashierForQueueSize.getQueueSize();
     Cashier &bestCashierForTotalOfItems = cashiers->at(0);
+    int smallestTotalOfItems = bestCashierForTotalOfItems.getQueueSize();
+    Cashier choice;
 
     for (int i = 0; i < cashiers->size(); i++) {
-        Cashier &choice = cashiers->at(i);
+        choice = cashiers->at(i);
 
         if (choice.getQueueSize() <= smallestQueueSize) {
             smallestQueueSize = choice.getQueueSize();
             bestCashierForQueueSize = choice;
         }
 
-        if (customer.getItemsSize() <= smallestTotalOfItems) {
-            smallestTotalOfItems = customer.getItemsSize();
+        if (choice.getItemsSize() <= smallestTotalOfItems) {
+            smallestTotalOfItems = choice.getItemsSize();
             bestCashierForTotalOfItems = choice;
         }
     }
