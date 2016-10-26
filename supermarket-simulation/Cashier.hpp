@@ -5,12 +5,9 @@
 */
 #ifndef STRUCTURES_CASHIER_H
 #define STRUCTURES_CASHIER_H
-
-#include <cstdint>  //!< included csdtint
-#include <stdexcept>  //!< included stdexcept
-#include "customer.hpp"  //!< using Customer to get it's data
-
-namespace cashier {
+#include <string>
+#include "customer.cpp"
+#include "array_queue.h"
 
 class Cashier {
     /*!
@@ -22,110 +19,153 @@ class Cashier {
      *
      */
 
- public
- Cashier();
+ public:
+
+ inline Cashier(std::string &id, int eff, int income);
+ /*
+  * Constructs a Cashier with the given data
+  */
+
+  inline Cashier();
  /*
   * Constructs a Cashier
   */
- ~Cashier();
+
+ inline ~Cashier();
  /*
   * Deletes the Cashier
   */
- handleCustomer();
+ inline Customer getCustomer();
+  /*
+  * returns the customer at the front of the queue;
+  */
+ inline void checkOut();
  /*
   * checks the Customer out
   */
- int getQueueSize();
+ inline std::size_t getQueueSize();
  /*
   * Returns the size of the Customer Queue
   */
- int getCustomersOut();
+ inline int getCustomersOut();
  /*
   * Returns the amount of customers checked out
   */
- int getAverageWaitingTime();
+ inline int getWaitingTime();
+  /*
+  * Returns the waiting time for a customer
+  */
+ inline int getAverageWaitingTime();
  /*
   * Returns the average waiting time for a customer
   */
- double getTotalRevenue();
+ inline int getTotalWaitingTime();
+ /*
+  * Returns the total waiting time for a customer
+  */
+ inline int getTotalRevenue();
  /*
   * Returns the total of cash stored by the cashier
   */
- double getAverageRevenue();
+ inline int getAverageRevenue();
  /*
   * Returns the average revenue of the cashier
   */
- string getId();
+ inline int getIncome();
+ /*
+  * Returns the average revenue of the cashier
+  */
+ inline std::string getId();
  /*
   * Returns the cashier's ID
   */
- int getEff();
+ inline int getEff();
  /*
   * Returns the cashier's efficiency
   */
- setTotalRevenue();
+
+ inline int getTotalOfItems();
+  /*
+  * Returns the number of items in the cashier's queue
+  */
+ inline void setTotalRevenue(int amount);
  /*
   * Changes the value of the total revenue
   */
- setAverageRevenue();
+ inline void setAverageRevenue();
  /*
   * Changes the value of the Average Revenue
   */
- setWaitingTime();
+  inline int setWaitingTime(Customer myCustomer);
  /*
-  * Changes the value of the Average Waiting time
+  * Changes the value of the Waiting Time
   */
-
-
- protected
- Customer *queue_;
+  inline void setTotalWaitingTime(int wTime);
  /*
-  * A pointer for a Customer's queue
+  * Changes the value of the total Waiting Time
   */
- std::size_t queueSize_;
- /*
-  * The size of the queue
-  */
- string Id_;
- /*
-  * The Id of the Cahsier
-  */
- const int eff_;
- /*
-  *  The efficiency coefficient of the Cashier
-  */
- const int income_;
- /*
-  * The income of the cashier
-  */
- int customersOut;
- /*
-  * The number of customer checked out by the cashier
-  */
- int averageWaitingTime;
- /*
-  * The average time in seconds that a Customer stands waiting
-  */
- double totalRevenue;
- /*
-  * The total amount of cash accumulated by the cashier
-  */
- double averageRevenue;
- /*
-  * The Average amount of cash accumulated by the Cashier
-  */
- bool emptyQueue();
+ inline bool emptyQueue();
  /*
   * Checks if the queue of Customers is empty
   */
+ inline void add(Customer newCustomer);
+ /*
+  * Adds a customer to the queue;
+  */
 
+
+ protected:
+ ArrayQueue<Customer>* queue_;
+ /*
+  * A pointer for a Customer's queue
+  */
+ std::size_t queueSize_{0};
+ /*
+  * The size of the queue
+  */
+ std::string id_;
+ /*
+  * The Id of the Cahsier
+  */
+ int eff_;
+ /*
+  *  The efficiency coefficient of the Cashier
+  */
+ int income_;
+ /*
+  * The income of the cashier
+  */
+ int customersOut{0};
+ /*
+  * The number of customer checked out by the cashier
+  */
+ int totalItems_{0};
+  /*
+  * The number items in the cashier's queue
+  */
+ int averageWaitingTime{0};
+ /*
+  * The average time in seconds that a Customer stands waiting
+  */
+  int waitingTime{0};
+  /*
+  * The waiting time of the next customer
+  */
+  int totalWaitingTime{0};
+  /*
+  * The total amount of time accumulated by all clients
+  */
+ int totalRevenue{0};
+ /*
+  * The total amount of cash accumulated by the cashier
+  */
+ int averageRevenue{0};
+ /*
+  * The Average amount of cash accumulated by the Cashier
+  */
 
 
 };
-}
-
-
-
 
 
 #endif // STRUCTURES_CASHIER_H

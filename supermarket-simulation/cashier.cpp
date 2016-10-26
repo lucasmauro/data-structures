@@ -1,64 +1,108 @@
-#ifndef CASHIER_H
-#define CASHIER_H
+#ifndef CASHIER_CPP
+#define CASHIER_CPP
 
+#include <cstdint>
 #include "Cashier.hpp"
 
- using namespace cashier;
+  Cashier::Cashier(std::string &id, int eff, int income) {
+    this->id_ = id;
+    this->eff_ = eff;
+    this->income_ = income;
+    this->queue_ = new ArrayQueue<Customer>(10);
+    this->queueSize_ = 0;
+}
 
- Cashier(string id, int eff, int income) {
-    Id_{id};
-    eff_{eff};
-    income_{income};
-    queue_ = new LinkedQueue<Customer>;
-    queueSize_{0};
-    }
+Cashier::Cashier() {
+    this->id_ = "";
+    this->eff_ = 0;
+    this->income_ = 0;
+    this->queue_ = nullptr;
+    this->queueSize_ = 0;
+}
 
- ~Cashier() {
-    delete queue_;
-    delete Cashier;
+  Cashier::~Cashier() {
  }
-
-handleCustomer() {
-    Customer out = queue_<-dequeue();
-    setTotalRevenue(out.total);
+Customer Cashier::getCustomer() {
+    return queue_->front();
+}
+void Cashier::checkOut() {
+    Customer out = queue_->dequeue();
+    setTotalRevenue(out.getTotalItemsPrice());
     customersOut++;
-    delete out;
  }
- int getQueueSize() {
-    return queueSize;
-    }
- int getCustomersOut() {
+ std::size_t Cashier::getQueueSize() {
+    return this->queue_->size();
+}
+ int  Cashier::getCustomersOut() {
     return customersOut;
-    }
- int getAverageWaitingTime() {
-    return AverageWaitingTime;
-    }
- double getTotalRevenue() {
+}
+ int  Cashier::getAverageWaitingTime() {
+     if (customersOut > 0) {
+        return (totalWaitingTime/customersOut);
+     }
+}
+ int  Cashier::getWaitingTime() {
+    return waitingTime;
+}
+ int  Cashier::getTotalRevenue() {
     return totalRevenue;
  }
- double getAverageRevenue() {
+ int  Cashier::getAverageRevenue() {
     return averageRevenue;
-    }
- String getId() {
-    return id;
-    }
- int getEff() {
- return eff_;
+}
+int  Cashier::getIncome() {
+    return this->income_;
+}
+ std::string  Cashier::getId() {
+    return id_;
+}
+ int  Cashier::getEff() {
+    return eff_;
  }
- setTotalRevenue(double amount) {
+ int Cashier::getTotalOfItems() {
+    return totalItems_;
+ }
+ void Cashier::setTotalRevenue(int amount) {
      totalRevenue += amount;
-    }
- setAverageRevenue() {
+}
+ void Cashier::setAverageRevenue() {
         averageRevenue = (totalRevenue/customersOut);
-    }
- setWaitingTime(int waitingTime) {
-     averageWaitingTime += waitingTime;
-     return averageWaitingTime/getQueueSize();
+}
+int Cashier::setWaitingTime(Customer myCustomer) {
+    int checkDelay = 0;
+    if (myCustomer.getPaymentType() == 0) {
+        if (this->eff_ == 1) {
+            checkDelay = 10;
+        } else if (this->eff_ == 2) {
+            checkDelay = 25;
+        } else if (this->eff_ == 3) {
+            checkDelay = 60;
+        }
     }
 
-bool emptyQueue {
-    return queue_<-empty();
+    if (this->eff_ == 1) {
+        waitingTime = myCustomer.getItemsSize()+checkDelay;
+    } else if (this->eff_ == 2) {
+         waitingTime = (myCustomer.getItemsSize()*2)+checkDelay;
+    } else if (this->eff_ == 3) {
+         waitingTime = (myCustomer.getItemsSize()*4)+checkDelay;
     }
+    return waitingTime;
+}
+
+void Cashier::setTotalWaitingTime(int wTime) {
+     this->totalWaitingTime += wTime;
+}
+
+bool  Cashier::emptyQueue() {
+    return this->queue_->empty();
+}
+
+void Cashier::add(Customer newCustomer) {
+    this->queue_->enqueue(newCustomer);
+    this->totalItems_ += newCustomer.getItemsSize();
+    this->queueSize_++;
+}
 
 
 #endif // CASHIER_H

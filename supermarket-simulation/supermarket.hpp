@@ -5,56 +5,100 @@
 #ifndef SUPERMARKET_HPP
 #define SUPERMARKET_HPP
 
-#include customer.hpp
-#include cashier.hpp
-#include circular_list.hpp
+#include <string>
+#include "cashier.cpp"
+#include "circular_list.h"
 
+
+/*!
+* Supermarket
+*
+* Represents a supermarket.
+*/
 class Supermarket {
 
  public:
 
- Supermarket();
+/*!
+  * The row of cashiers of the Supermarket.
+ */
+ CircularList<Cashier> *cashiers;
+ /*!
+  * Constructor
+  * Constructs a supermarket
+  */
+ inline Supermarket();
 
- ~Supermarket();
+ /*!
+  * Constructor
+  * Constructs a supermarket with the given parameters
+  */
+ inline Supermarket(std::string name, int simulation, int arrival);
 
- CircularList<Cashier> *supermarket;
+ /*!
+  * Destructor
+  * Destructs a supermarket
+  */
+ inline ~Supermarket();  //ignorar
 
- void run();
+ inline void run();
 
- int getTimer();
+ inline int getTimer();  //ignorar
 
- string getName();
+ inline std::string getName();  //ignorar
 
- int getCustomerArrival();
+ inline int getCustomerArrival();  //ignorar
 
- int getUnnnatended();
+ inline int getUnattended();  //ignorar
 
- int getLostRevenue();
+ inline int getLostRevenue();  //ignorar
 
- void callOvertime();
+ inline void addCashier(Cashier add);  //ignorar
 
- int maxQueueSize();
+ inline void addCashier();  //ignorar
 
- void readFile();
+ inline void callOvertime();  //ignorar
+
+ inline void setArrival(int newArrivalTime);  //ignorar
+
+ inline int maxQueueSize();  //ignorar
+
+ inline void calculateTotals();  //ignorar
+
+ inline void cashiersRevenue(); //ignorar
+
+  /*!
+    * Based on their criteria, the customer will either pick a cashier that
+    * has either a smallest number of people in queue or
+    * the least sum of items in queue.
+    *
+    * @param cashiers A list of cashiers in the market.
+    */
+ inline bool chooseCashier(Customer& customer);
 
  private:
 
- int timer_;
+ int timer_{0};
 
- int simTime_;
+ int simTime_;  //ignorar
 
- string name_;
+ std::string name_;
 
- int maxQueueSize_;
+ int queue_size_limit_; //ignorar
 
- int customerArrivalInt_;
+ int customerArrivalInt_; //ignorar
 
- int unattendedCustomers_;
+ int unattendedCustomers_{0};
 
- int lostRevenue_;
+ int lostRevenue_{0};
 
- // writeFile();
+ int totalRevenue_{0}; //ignorar
+
+ int averageRevenue_{0}; //ignorar
+
+ int averageWait_{0};  //ignorar
+
 
 };
 
-#endif SUPERMARKET_HPP
+#endif //SUPERMARKET_HPP

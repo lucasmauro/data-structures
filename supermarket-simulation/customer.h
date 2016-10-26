@@ -12,8 +12,6 @@
 
 #include <cstdlib>
 #include <ctime>
-#include "circular_list.h"
-#include "cashier.hpp"
 
 class Customer {
  public:
@@ -23,61 +21,52 @@ class Customer {
     * @param cashierSearchType Represents which type of cashier the customer looks for.
     */
 
-    Customer();
+    inline Customer();
 
     Customer(int arrivalTime);
     /*!
     * Destroys a customer.
     */
-    ~Customer();
-
-    /*!
-    * Based on their criteria, the customer will either pick a cashier that
-    * has either a smallest number of people in queue or
-    * the least sum of items in queue.
-    *
-    * @param cashiers A list of cashiers in the market.
-    */
-    bool chooseCashier(CircularList<Cashier> cashiers);
+    inline ~Customer();
 
     /*!
     * Returns a representation of which type of cashier the customer looks for.
     * 0 stands for the queue with the least persons.
     * 1 stands for the queue with the least items.
     */
-    int getCashierSearchType();
+    inline int getCashierSearchType();
 
     /*!
     * Returns a representation of the payment type which the customer shall use.
     * 0 stands for money;
     * 1 stands for check.
     */
-    int getPaymentType();
+    inline int getPaymentType();
 
     /*!
     * Returns how many items the customer is buying.
     */
-    int getItemsSize();
+    inline int getItemsSize();
 
     /*!
     * Returns the total price which the customer shall pay.
     */
-    int getTotalItemsPrice();
+    inline int getTotalItemsPrice();
 
     /*!
     * Returns when the customer has arrived at the supermarket.
     */
-    int getArrivalTime();
+    inline int getArrivalTime();
 
     /*!
     * Returns when the customer shall leave the supermarket.
     */
-    int getExitTime();
+    inline int getExitTime();
 
    /*!
     * Sets when the costumer shall leave the supermarket.
     */
-    void setExitTime(int exitTime);
+    inline void setExitTime(int exitTime);
 
  private:
     int cashierSearchType_;  //<! The type of cashier the customer looks for.
@@ -89,5 +78,4 @@ class Customer {
     const static int queue_size_limit_ = 10;  //<! The maximum size of a queue that a client shall withstand.
 };
 
-#include "customer.cpp"
 #endif
