@@ -75,7 +75,7 @@ class Cashier {
  /*
   * Returns the average revenue of the cashier
   */
- inline std::string getId();
+ inline std::string getName();
  /*
   * Returns the cashier's ID
   */
@@ -88,7 +88,7 @@ class Cashier {
   /*
   * Returns the number of items in the cashier's queue
   */
- inline void setTotalRevenue(int amount);
+ inline void addTotalRevenue(int amount);
  /*
   * Changes the value of the total revenue
   */
@@ -118,10 +118,6 @@ class Cashier {
  ArrayQueue<Customer>* queue_;
  /*
   * A pointer for a Customer's queue
-  */
- std::size_t queueSize_{0};
- /*
-  * The size of the queue
   */
  std::string id_;
  /*

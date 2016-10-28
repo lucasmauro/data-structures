@@ -9,89 +9,77 @@ using namespace std;
 
 int main() {
 
-    string supermarketName = "";
-    string simulationHours = "";
-    int simHours = 0;
-    string meanCustomerArrivalTime = "";
-    int arrivalTime = 0;
-    char line[255];
+	string supermarketName = "";
+	string simulationHours = "";
+	int simHours = 0;
+	string meanCustomerArrivalTime = "";
+	int arrivalTime = 0;
+	char line[255];
 
-    CircularList<Cashier> cashiers {};
+	CircularList<Cashier> cashiers { };
 
-    int option;
+	FILE *file =
+			fopen(
+					"/media/coisas/projetos/data-structures/supermarket-simulation/input.txt",
+					"r+");
 
-    std::cout << "would you like to open a file or type in the data?\n";
-    std::cout << "1 - Open file\n";
-    std::cout << "2 - Type in data\n";
-    std::cin >> option;
+	if (!file) {
+		perror("File opening failed");
+	}
 
-    if (option == 1) {
+	while (!feof(file)) {
+		fgets(line, 255, file);
+		bool validLine = line[0] != '#' && line[0] != '\n' && line[0] != ' ';
 
-        FILE *file = fopen("C:\\Users\\Usuario\\Documents\\Supermarket\\input.txt", "r+");
+		if (supermarketName.empty() && validLine) {
+			supermarketName = line;
 
-        if (!file)
-            perror("File opening failed");
+		} else if (simulationHours.empty() && validLine) {
+			simulationHours = line;
+			simHours = atoi(simulationHours.c_str()) * 60;
 
-        while (!feof(file)) {
-            fgets(line, 255, file);
-            bool validLine = line[0] != '#' && line[0] != '\n' && line[0] != ' ';
+		} else if (meanCustomerArrivalTime.empty() && validLine) {
+			meanCustomerArrivalTime = line;
+			arrivalTime = atoi(meanCustomerArrivalTime.c_str());
 
-            if (supermarketName.empty() && validLine) {
-                supermarketName = line;
+		} else if (!supermarketName.empty() && !simulationHours.empty()
+				&& !meanCustomerArrivalTime.empty() && validLine) {
 
-            } else if (simulationHours.empty() && validLine) {
-                simulationHours = line;
-                simHours = atoi(simulationHours.c_str())*60;
+			string cashierLine = line;
+			int pos = cashierLine.find(" ");
 
-            } else if (meanCustomerArrivalTime.empty() && validLine) {
-                meanCustomerArrivalTime = line;
-                arrivalTime = atoi(meanCustomerArrivalTime.c_str());
+			string firstParameter = cashierLine.substr(0, pos);
 
-            } else if (!supermarketName.empty() && !simulationHours.empty()
-                    && !meanCustomerArrivalTime.empty() && validLine) {
+			string secondChunk = cashierLine.substr(pos + 1,
+					cashierLine.find(" "));
 
-                string cashierLine = line;
-                int pos = cashierLine.find(" ");
+			pos = secondChunk.find(" ");
 
-                string firstParameter = cashierLine.substr(0, pos);
+			string secondParameter = secondChunk.substr(0, pos);
+			string thirdParameter = secondChunk.substr(pos + 1,
+					secondChunk.size());
 
-                string secondChunk = cashierLine.substr(pos + 1,
-                        cashierLine.find(" "));
+			int secondParam = atoi(secondParameter.c_str());
+			int thirdParam = atoi(thirdParameter.c_str());
 
-                pos = secondChunk.find(" ");
+			Cashier brandNewCashier = Cashier(firstParameter, secondParam,
+					thirdParam);
 
-                string secondParameter = secondChunk.substr(0, pos);
-                string thirdParameter = secondChunk.substr(pos + 1,
-                        secondChunk.size());
+			cashiers.push_back(brandNewCashier);
+		}
 
-                int secondParam = atoi(secondParameter.c_str());
-                int thirdParam = atoi(thirdParameter.c_str());
+	}
 
-                Cashier brandNewCashier = Cashier(firstParameter, secondParam, thirdParam);
+	fclose(file);
 
-                cashiers.push_back(brandNewCashier);
-            }
+	Supermarket supermarket = Supermarket(supermarketName, simHours,
+			arrivalTime);
 
-        }
+	for (auto i = 0; i < cashiers.size(); i++) {
+		supermarket.addCashier(cashiers.pop_back());
+	}
 
-        fclose(file);
-
-
-    } else if (option == 2) {
-        Supermarket supermarket = Supermarket();
-        supermarket.run();
-    }
-
-    if (option == 1 && !supermarketName.empty() && simHours > 0 && arrivalTime > 0) {
-
-    	Supermarket supermarket = Supermarket(supermarketName, simHours, arrivalTime);
-
-    	for (auto i = 0; i < cashiers.size(); i++) {
-    		supermarket.addCashier(cashiers.pop_back());
-    	}
-
-    	supermarket.run();
-    }
+	supermarket.run();
 
 	return 0;
 }

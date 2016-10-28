@@ -22,7 +22,7 @@ class Supermarket {
 /*!
   * The row of cashiers of the Supermarket.
  */
- CircularList<Cashier> *cashiers;
+ CircularList<Cashier> *cashiers_;
  /*!
   * Constructor
   * Constructs a supermarket
@@ -65,7 +65,7 @@ class Supermarket {
 
  inline void calculateTotals();  //ignorar
 
- inline void cashiersRevenue(); //ignorar
+ inline void printCashiersRevenue(); //ignorar
 
   /*!
     * Based on their criteria, the customer will either pick a cashier that
