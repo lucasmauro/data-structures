@@ -48,7 +48,7 @@ int Cashier::getTotalRevenue() {
 	return totalRevenue;
 }
 int Cashier::getAverageRevenue() {
-	return averageRevenue;
+	return totalRevenue / customersOut;
 }
 int Cashier::getIncome() {
 	return this->income_;
@@ -64,9 +64,6 @@ int Cashier::getTotalOfItems() {
 }
 void Cashier::addTotalRevenue(int amount) {
 	totalRevenue += amount;
-}
-void Cashier::setAverageRevenue() {
-	averageRevenue = (totalRevenue / customersOut);
 }
 int Cashier::getCustomerWaitingTime(Customer myCustomer) {
 	int checkDelay = 0;
