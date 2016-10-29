@@ -20,7 +20,7 @@ int main() {
 
 	FILE *file =
 			fopen(
-					"/media/coisas/projetos/data-structures/supermarket-simulation/input.txt",
+					"/change/me/here/please/input.txt",
 					"r+");
 
 	if (!file) {
@@ -65,7 +65,7 @@ int main() {
 			Cashier brandNewCashier = Cashier(firstParameter, secondParam,
 					thirdParam);
 
-			cashiers.push_back(brandNewCashier);
+			cashiers.insert(brandNewCashier, 0);
 		}
 
 	}
@@ -76,9 +76,8 @@ int main() {
 			arrivalTime);
 
 	for (auto i = 0; i < cashiers.size(); i++) {
-		supermarket.addCashier(cashiers.pop_back());
+		supermarket.addCashier(cashiers.at(i));
 	}
-
 	supermarket.run();
 
 	return 0;

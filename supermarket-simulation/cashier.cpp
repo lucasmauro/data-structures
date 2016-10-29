@@ -8,14 +8,14 @@ Cashier::Cashier(std::string &id, int eff, int income) {
 	this->id_ = id;
 	this->eff_ = eff;
 	this->income_ = income;
-	this->queue_ = new ArrayQueue<Customer>(11);
+	this->queue_ = new ArrayQueue<Customer>(10);
 }
 
 Cashier::Cashier() {
 	this->id_ = "";
 	this->eff_ = 0;
 	this->income_ = 0;
-	this->queue_ = new ArrayQueue<Customer>(11);
+	this->queue_ = new ArrayQueue<Customer>(10);
 }
 
 Cashier::~Cashier() {
@@ -68,7 +68,7 @@ void Cashier::addTotalRevenue(int amount) {
 void Cashier::setAverageRevenue() {
 	averageRevenue = (totalRevenue / customersOut);
 }
-int Cashier::setWaitingTime(Customer myCustomer) {
+int Cashier::getCustomerWaitingTime(Customer myCustomer) {
 	int checkDelay = 0;
 	if (myCustomer.getPaymentType() == 0) {
 		if (this->eff_ == 1) {
@@ -90,7 +90,7 @@ int Cashier::setWaitingTime(Customer myCustomer) {
 	return waitingTime;
 }
 
-void Cashier::setTotalWaitingTime(int wTime) {
+void Cashier::addTotalWaitingTime(int wTime) {
 	this->totalWaitingTime += wTime;
 }
 
@@ -99,8 +99,10 @@ bool Cashier::emptyQueue() {
 }
 
 void Cashier::add(Customer newCustomer) {
-	this->queue_->enqueue(newCustomer);
-	this->totalItems_ += newCustomer.getItemsSize();
+	if (!this->queue_->full()) {
+		this->queue_->enqueue(newCustomer);
+		this->totalItems_ += newCustomer.getItemsSize();
+	}
 }
 
 #endif // CASHIER_H

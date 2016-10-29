@@ -96,11 +96,11 @@ class Cashier {
  /*
   * Changes the value of the Average Revenue
   */
-  inline int setWaitingTime(Customer myCustomer);
+  inline int getCustomerWaitingTime(Customer myCustomer);
  /*
   * Changes the value of the Waiting Time
   */
-  inline void setTotalWaitingTime(int wTime);
+  inline void addTotalWaitingTime(int wTime);
  /*
   * Changes the value of the total Waiting Time
   */

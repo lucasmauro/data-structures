@@ -8,7 +8,7 @@
 
 Supermarket::Supermarket(std::string name, int simulationTime,
 		int costumerArrivalInterval) {
-	this->simTime_ = simulationTime * 3600;
+	this->simTime_ = simulationTime;
 	this->name_ = name;
 	this->queue_size_limit_ = 10;
 	this->customerArrivalInt_ = costumerArrivalInterval;
@@ -22,44 +22,37 @@ Supermarket::~Supermarket() {
 }
 
 void Supermarket::run() {
-	// cria o primeiro cliente. sua chegada dispara o programa
-	Customer firstCustomer = Customer(timer_);
-	//  escolhe um caixa para o primeiro cliente
-	this->chooseCashier(firstCustomer);
-	// gera a hora de chegada do próximo cliente
-	int nextCustomerArrivalTime = (customerArrivalInt_ + (std::rand() % 5));
+	int nextCustomerArrivalTime;
 
-	//  cria um laço para, enquanto o relógio não chegar ao fim da simulação...
+	if (timer_ == 0) {
+		Customer firstCustomer = Customer(timer_);
+		this->chooseCashier(firstCustomer);
+		nextCustomerArrivalTime = customerArrivalInt_ + (std::rand() % 5);
+	}
+
 	while (timer_ <= simTime_) {
-		//  ...percorrer a lista circular, caixa por caixa
 		for (int i = 0; i < cashiers_->size(); i++) {
 			Cashier thisCashier = cashiers_->at(i);
-			//  se a fia do caixa não for vazia...
 			if (thisCashier.getQueueSize() > 0) {
-				//  ...verifica se está na hora de o primeiro cliente ser atendido
 				Customer thisCustomer = thisCashier.getCustomer();
 				if (thisCustomer.getExitTime() == timer_) {
 					thisCashier.checkOut();
 				}
 			}
 		}
-		//  aqui, verificamos se está na hora do próximo cliente chegar
 
 		if (nextCustomerArrivalTime == timer_) {
-			Customer arrival = Customer(timer_);
-			//  se estiver, escolhemos um caixa pra ele, se houver
-			if (chooseCashier(arrival)) {
-				nextCustomerArrivalTime += (customerArrivalInt_
-						+ (std::rand() % 5));
-			} else { //  se não houver, ele abandona o carrinho. o valor de suas compras é multiplicdo por três.
+			Customer newCustomer = Customer(timer_);
+			if (!chooseCashier(newCustomer)) {
 				this->unattendedCustomers_++;
-				this->lostRevenue_ += (arrival.getTotalItemsPrice() * 3);
+				this->lostRevenue_ += (newCustomer.getTotalItemsPrice() * 3);
 			}
+
+			nextCustomerArrivalTime += customerArrivalInt_ + (std::rand() % 5);
 		}
 		timer_++;
 	}
 
-//  ao final da simulação, calcula-se os totais que o sistema deve informar ao usuário
 	this->calculateTotals();
 
 	std::cout << "Simulation terminated successfully." << std::endl;
@@ -95,7 +88,7 @@ int Supermarket::getUnattended() {
 }
 
 void Supermarket::addCashier(Cashier add) {
-	cashiers_->push_back(add);
+	cashiers_->insert(add, 0);
 }
 
 int Supermarket::getLostRevenue() {
@@ -116,14 +109,14 @@ void Supermarket::callOvertime() {
 	std::cout << "Thanks";
 
 	Cashier extra = Cashier(name, eff, income);
-	cashiers_->push_back(extra);
+	cashiers_->insert(extra, 0);
 }
 
 bool Supermarket::chooseCashier(Customer& customer) {
-	Cashier &bestCashierForQueueSize = cashiers_->at(1);
-	int smallestQueueSize = bestCashierForQueueSize.getQueueSize();
-	Cashier &bestCashierForTotalOfItems = cashiers_->at(0);
-	int smallestTotalOfItems = bestCashierForTotalOfItems.getQueueSize();
+	Cashier bestCashierForQueueSize;
+	int smallestQueueSize = 0;
+	Cashier bestCashierForTotalOfItems;
+	int smallestTotalOfItems = 0;
 	Cashier choice;
 
 	for (int i = 0; i < cashiers_->size(); i++) {
@@ -140,27 +133,25 @@ bool Supermarket::chooseCashier(Customer& customer) {
 		}
 	}
 
-	if (smallestQueueSize >= this->queue_size_limit_ - 1) {
+	if (smallestQueueSize >= this->queue_size_limit_) {
 		return false;
 	}
 
 	if (customer.getCashierSearchType() == 0) {
 		bestCashierForQueueSize.add(customer);
-		int wait = bestCashierForQueueSize.setWaitingTime(customer);
+		int wait = bestCashierForQueueSize.getCustomerWaitingTime(customer);
 		customer.setExitTime(wait + this->timer_);
-		bestCashierForQueueSize.setTotalWaitingTime(wait);
+		bestCashierForQueueSize.addTotalWaitingTime(wait);
 		return true;
-	}
-
-	if (customer.getCashierSearchType() == 1) {
+	} else if (customer.getCashierSearchType() == 1) {
 		bestCashierForTotalOfItems.add(customer);
-		int wait = bestCashierForTotalOfItems.setWaitingTime(customer);
+		int wait = bestCashierForTotalOfItems.getCustomerWaitingTime(customer);
 		customer.setExitTime(wait + this->timer_);
-		bestCashierForTotalOfItems.setTotalWaitingTime(wait);
+		bestCashierForTotalOfItems.addTotalWaitingTime(wait);
 		return true;
+	} else {
+		return false;
 	}
-
-	return false;
 }
 
 int Supermarket::maxQueueSize() {
@@ -189,12 +180,14 @@ void Supermarket::calculateTotals() {
 void Supermarket::printCashiersRevenue() {
 	for (int i = 0; i < cashiers_->size(); i++) {
 		Cashier cashier = cashiers_->at(i);
+		std::string cashierName = cashier.getName();
+
 		std::cout << "Cashier's name: " << cashier.getName() << std::endl;
-		std::cout << "Cashier's total revenue: " << cashier.getTotalRevenue()
-				<< std::endl;
-		std::cout << "Cashier's average revenue: "
+		std::cout << cashierName << "'s total revenue: "
+				<< cashier.getTotalRevenue() << std::endl;
+		std::cout << cashierName << "'s average revenue: "
 				<< cashier.getAverageRevenue() << std::endl;
-		std::cout << "Cashier's profit: "
+		std::cout << cashierName << "'s profit: "
 				<< cashier.getTotalRevenue() - cashier.getIncome() << std::endl;
 		std::cout << std::endl;
 	}
