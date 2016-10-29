@@ -7,10 +7,10 @@
 DoNotBuyHere Supermarket
 
 # Simulation hours
-2 
+8 
 
 # Mean costumer arrival time
-5
+2
 
 # Cashiers parameters
 

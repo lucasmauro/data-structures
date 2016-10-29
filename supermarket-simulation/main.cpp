@@ -20,7 +20,7 @@ int main() {
 
 	FILE *file =
 			fopen(
-					"/change/me/here/please/input.txt",
+					"/home/lucas/workspace/linked_list/src/input.txt",
 					"r+");
 
 	if (!file) {
@@ -36,7 +36,7 @@ int main() {
 
 		} else if (simulationHours.empty() && validLine) {
 			simulationHours = line;
-			simHours = atoi(simulationHours.c_str()) * 60;
+			simHours = atoi(simulationHours.c_str()) * 3600;
 
 		} else if (meanCustomerArrivalTime.empty() && validLine) {
 			meanCustomerArrivalTime = line;

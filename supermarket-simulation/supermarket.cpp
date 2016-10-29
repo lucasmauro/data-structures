@@ -32,7 +32,7 @@ void Supermarket::run() {
 
 	while (timer_ <= simTime_) {
 		for (int i = 0; i < cashiers_->size(); i++) {
-			Cashier thisCashier = cashiers_->at(i);
+			Cashier &thisCashier = cashiers_->at(i);
 			if (thisCashier.getQueueSize() > 0) {
 				Customer thisCustomer = thisCashier.getCustomer();
 				if (thisCustomer.getExitTime() == timer_) {
@@ -138,15 +138,15 @@ bool Supermarket::chooseCashier(Customer& customer) {
 	}
 
 	if (customer.getCashierSearchType() == 0) {
-		bestCashierForQueueSize.add(customer);
 		int wait = bestCashierForQueueSize.getCustomerWaitingTime(customer);
 		customer.setExitTime(wait + this->timer_);
+		bestCashierForQueueSize.add(customer);
 		bestCashierForQueueSize.addTotalWaitingTime(wait);
 		return true;
 	} else if (customer.getCashierSearchType() == 1) {
-		bestCashierForTotalOfItems.add(customer);
 		int wait = bestCashierForTotalOfItems.getCustomerWaitingTime(customer);
 		customer.setExitTime(wait + this->timer_);
+		bestCashierForTotalOfItems.add(customer);
 		bestCashierForTotalOfItems.addTotalWaitingTime(wait);
 		return true;
 	} else {
