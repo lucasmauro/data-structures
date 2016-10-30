@@ -34,7 +34,7 @@ void Supermarket::run() {
 		for (int i = 0; i < cashiers_->size(); i++) {
 			Cashier &thisCashier = cashiers_->at(i);
 			if (thisCashier.getQueueSize() > 0) {
-				Customer thisCustomer = thisCashier.getCustomer();
+				Customer &thisCustomer = thisCashier.getCustomer();
 				if (thisCustomer.getExitTime() == timer_) {
 					thisCashier.checkOut();
 				}
