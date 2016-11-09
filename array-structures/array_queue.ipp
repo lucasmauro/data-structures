@@ -20,7 +20,7 @@
     template<typename T>
     ArrayQueue<T>::~ArrayQueue() {
         this->size_ = -1;
-        delete this-> contents;
+        delete[] this-> contents;
     }
 
     template<typename T>

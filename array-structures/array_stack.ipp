@@ -20,7 +20,7 @@
     template<typename T>
     ArrayStack<T>::~ArrayStack() {
         this->top_ = -1;
-        delete this->contents;
+        delete[] this->contents;
     }
 
     template<typename T>

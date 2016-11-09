@@ -18,7 +18,7 @@
 
     template<typename T>
     ArrayList<T>::~ArrayList() {
-        delete this->contents;
+        delete[] this->contents;
     }
 
     template<typename T>
