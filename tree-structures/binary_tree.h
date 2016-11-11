@@ -19,7 +19,7 @@ class BinaryTree {
     }
 
     ~BinaryTree() {
-        delete this->root;
+        this->size_ = 0;
     }
 
     /*!
@@ -37,8 +37,11 @@ class BinaryTree {
      * Removes from the three the node which contains given data, if such node exists.
      */
     void remove(const T& data) {
-        if (this->root->remove(data))
-            this->size_--;
+        if (!empty()) {
+            if (this->root->remove(data)) {
+                this->size_--;
+            }
+        }
     }
 
     /*!
@@ -133,7 +136,42 @@ class BinaryTree {
         }
 
         bool remove(const T& data_) {
-            return true;
+            if (data == data_) {
+                if (right != nullptr && left != nullptr) {
+                    auto tmp = minimo(right);
+                    data = tmp->data;
+                    return right->remove(data);
+                } else {
+                    if (right != nullptr) {
+                        data = right->data;
+                        return right->remove(data);
+                    } else {
+                        if (left != nullptr) {
+                            data = left->data;
+                            return left->remove(data);
+                        } else {
+                            delete this;
+                            return true;
+                        }
+                    }
+                }
+            } else {
+                if (data_ > data && right != nullptr) {
+                    return right->remove(data_);
+                } else {
+                    if (data_ < data && left != nullptr) {
+                        return left->remove(data_);
+                    }
+                }
+            }
+            return false;
+        }
+
+        Node* minimo(Node* node) {
+            while (node->left != nullptr) {
+                node = node->left;
+            }
+            return node;
         }
 
         bool contains(const T& data_) const {
